@@ -1,9 +1,10 @@
 body {
     background-color: #CFDBD5 !important;
+    font-family:'Courier New', Courier, monospace;
 }
 
 main {
-    padding: 30px;
+    padding: 60px;
 }
 
 .h1-img-main {
@@ -17,17 +18,31 @@ main {
     display: flex;
     align-self: flex-end;
     height: auto;
-    max-width: 400px;
+    max-width: 500px;
 }
+
 .card {
     margin: 20px;
+    --bs-card-border-radius: 3rem;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    background-color: #C0B8D9;
+    border: none;
+}
+
+.card-img-top {
+    width: 12rem;
 }
 
 .row {
     display: flex;
     justify-content: space-evenly;
 }
-
+.container{
+    background-color: #f5cc5c51;
+    margin: 0px;
+}
 .container p {
     font-size: 1rem;
 }
@@ -35,5 +50,18 @@ main {
 .container h5 {
     font-size: 1.3rem;
 }
+
+.btn {
+    flex-direction: column;
+    background-color: #F5CB5C;
+    border-radius: 30px;
+    border: none;
+}
+
+.btn-dark {
+    --bs-btn-color:#333533;
+    --bs-btn-hover-bg: #333533;
+}
+
 
 

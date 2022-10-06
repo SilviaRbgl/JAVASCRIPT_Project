@@ -4,7 +4,6 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- CSS only -->
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
       rel="stylesheet"
@@ -17,28 +16,36 @@
     />
     <link rel="stylesheet" href="./css/syle-general.css" />
     <title>HOME: Hire an expert!</title>
-
   </head>
 
   <body>
     <header>
       <nav class="navbar bg-light">
         <div class="container-fluid">
-            <a class="navbar-brand" href="./index.html">
-              <img src="./images/logo.png" alt="Logo" width="32" height="26"
-                class="d-inline-block align-text-top">
-              experts(!)
-            </a>
+          <a class="navbar-brand" href="./index.html">
+            <img
+              src="./images/logo.png"
+              alt="Logo"
+              width="32"
+              height="26"
+              class="d-inline-block align-text-top"
+            />
+            experts(!)
+          </a>
         </div>
       </nav>
     </header>
-    
+
     <main>
       <div class="h1-img-main">
         <div>
           <h1>Hire an expert!</h1>
           <p>
-            Are you looking for the perfect expert to take care of your project? If so, this is your plattform!
+            Are you looking for the perfect expert to take care of your project?
+            If so, this is your plattform! Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
+            aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis
+            aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
+            occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
           </p>
         </div>
         <img
@@ -52,35 +59,38 @@
         <nav class="navbar bg-light">
           <div class="container-fluid">
             <form class="d-flex">
-              <input class="form-control me-2" type="search" placeholder="e.g. 'Meth Dealer'" aria-label="Search">
-              <button class="btn btn-outline-success" type="submit">Search</button>
+              <input
+                class="form-control me-2"
+                type="search"
+                placeholder="e.g. 'Meth Dealer'"
+                aria-label="Search"
+              />
+              <button class="btn btn-dark" type="submit">
+                Search
+              </button>
             </form>
-            <button id="show-more" type="button" class="btn btn-dark">
-              Show options
-              <span class="material-symbols-outlined"> expand_more </span>
+            <button  id="btn-show-filters" type="button" class="btn btn-dark">
+              Show filters
+              <!-- <span class="material-symbols-outlined"> expand_more </span> -->
             </button>
           </div>
         </nav>
-      </div> 
+
+        <div class="container-filters" id="container-filters" style="display:none">
+          <select class="form-select" aria-label="Default select example">
+            <option selected>Choose the occupation</option>
+            <option value="1">ALL</option>
+            <option value="2">One</option>
+            <option value="3">Thwo</option>
+          </select>
+        </div>
+      </div>
 
       <div class="container" id="container">
-        <div class="row" id="container-cards">
-
-        </div>
-        <!-- <div class="card" style="width: 18rem;">
-          <img src="..." class="card-img-top" alt="...">
-          <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.
-            </p>
-            <a href="#" class="card-button">Go somewhere</a>
-          </div>
-        </div> -->
+        <div class="row" id="container-cards"></div>
       </div>
-    
     </main>
 
-    <!-- JavaScript Bundle with Popper -->
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
