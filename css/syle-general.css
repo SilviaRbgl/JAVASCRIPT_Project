@@ -1,0 +1,39 @@
+body {
+    background-color: #CFDBD5 !important;
+}
+
+main {
+    padding: 30px;
+}
+
+.h1-img-main {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.h1-img-main img {
+    display: flex;
+    align-self: flex-end;
+    height: auto;
+    max-width: 400px;
+}
+.card {
+    margin: 20px;
+}
+
+.row {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.container p {
+    font-size: 1rem;
+}
+
+.container h5 {
+    font-size: 1.3rem;
+}
+
+
