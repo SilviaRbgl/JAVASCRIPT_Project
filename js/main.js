@@ -4,7 +4,7 @@
 //     console.log("status >>>", data[i].status);
 // }
 
-
+// to create the cards
 function createCards() { 
     let containerCards = document.getElementById("container-cards");
   
@@ -16,7 +16,6 @@ function createCards() {
         divCard.classList.add("card");
     
         let img = document.createElement("img");
-        // img.setAttribute("style", "width: 150px");
         img.setAttribute("src", data[i].img);
         img.setAttribute("alt", data[i].name);
         img.setAttribute("referrerpolicy", "no-referrer");
@@ -25,12 +24,6 @@ function createCards() {
     
         let divCardBody = document.createElement("div");
         divCardBody.classList.add("card-body");
-      
-        // let today = new Date(data[i].birthday).toLocaleString("zh-CN")
-        // console.log('today :>> ', today);
-        // let age = data[i].birthday
-        // console.log('age :>> ', age);
-        // console.log('typeof :>> ', typeof age);
     
         let buttonCard = document.createElement("button");
         buttonCard.innerText = "Hire me";
@@ -55,46 +48,49 @@ function createCards() {
         containerCards.appendChild(divCard); 
         divCardBody.appendChild(img);
         divCardBody.appendChild(buttonCard);
+
+        // let today = new Date(data[i].birthday).toLocaleString("zh-CN")
+        // console.log('today :>> ', today);
+        // let age = data[i].birthday
+        // console.log('age :>> ', age);
+        // console.log('typeof :>> ', typeof age);
     }
-    
-    const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
-             const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
-    const images = document.querySelectorAll("img")
-    
-    for (let i = 0; i < images.length; i++) {
-        images[i].addEventListener("error", function () {
-            images[i].src = "https://t4.ftcdn.net/jpg/03/46/93/61/360_F_346936114_RaxE6OQogebgAWTalE1myseY1Hbb5qPM.jpg"
-        })
-    }
-    addEvents()
 }
+createCards()
 
 
+// to play the show filters/hide filters
 function addEvents() {
     let btnShowFilters = document.getElementById("btn-show-filters");
     btnShowFilters.addEventListener("click", showMore)
 }
+addEvents()
 
-
-// SHOW MORE
 function showMore() {
+    let showFilters = document.getElementById("container-filters");
+    let btnShowFilters = document.getElementById("btn-show-filters");
+    // console.log(showFilters.style.display);
 
-  let showFilters = document.getElementById("container-filters");
-let btnShowFilters = document.getElementById("btn-show-filters");
-  
-console.log(showFilters.style.display);
     if (showFilters.style.display === "none") {
-      console.log("A");
-    btnShowFilters.innerHTML = "Hide filters"; 
-        showFilters.style.display = "block";
-        
+        btnShowFilters.innerHTML = "Hide filters"; 
+        showFilters.style.display = "block";   
     } else {
-        console.log("B");
         showFilters.style.display = "none";
         btnShowFilters.innerHTML = "Show filters";
-        console.log(showFilters.style.display);
-     
-    // showFilters.style.display = "inline";
+        // console.log(showFilters.style.display);
   }
 }
-createCards()
+
+// to fix the error of the foto missing
+const images = document.querySelectorAll("img")
+for (let i = 0; i < images.length; i++) {
+    images[i].addEventListener("error", function () {
+    images[i].src = "https://t4.ftcdn.net/jpg/03/46/93/61/360_F_346936114_RaxE6OQogebgAWTalE1myseY1Hbb5qPM.jpg"
+        })
+}
+    
+// to add the effect of the popover with bootstrap
+const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
+const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
+
+
