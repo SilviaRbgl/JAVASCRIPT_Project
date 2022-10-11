@@ -12,18 +12,26 @@ const getData = () => {
       return response.json();
     })
     .then((result) => {
-      console.log("data", result);
-      createCards(result);
-      createDropdown(result);
-      addEventShowHide();
+      console.log("data", result);      
+      controller(result)
     })
     .catch((error) => console.log(error));
 };
 getData();
 
 // CONTROLLER FUNCTION
-// function controller() {
-// }
+function controller(result) {
+  //get the data
+
+  // create the cards
+  createCards(result);
+  // event listener show/hide
+  addEventShowHide();
+  // dropdown occupations
+  createDropdown(result);
+  // event listener dropdown
+
+}
 
 // FUNCTION FOR CREATING THE CARDS
 function createCards(characters) {
@@ -152,6 +160,11 @@ const popoverTriggerList = document.querySelectorAll(
 const popoverList = [...popoverTriggerList].map(
   (popoverTriggerEl) => new bootstrap.Popover(popoverTriggerEl)
 );
+
+
+
+
+
 
 const checkboxes = document.querySelectorAll(".form-check-input");
 console.log("checkboxes :>> ", checkboxes);
