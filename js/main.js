@@ -31,6 +31,10 @@ function controller(result) {
   createDropdown(result);
   // event listener dropdown
   addEventDropdown(result);
+  // checkbox experience
+  createCheckbox(result);
+  // event listener checkbox
+  // addEventCheckbox(result);
 }
 
 // FUNCTION FOR CREATING THE CARDS
@@ -128,7 +132,6 @@ const createDropdown = (result) => {
 
   const uniqueOccupations = [...new Set(occupationsArray)];
   // console.log("unique >>>", uniqueOccupations);
-
   uniqueOccupations.map((occupation) => {
     // console.log('occupation :>> ', occupation);
     let option = document.createElement("option");
@@ -154,70 +157,101 @@ const filterByDropdown = (characters) => {
   console.log("dropDrownValue", dropDrownValue);
 
   const filteredOccupation = characters.filter((characters) => {
-  
-    // console.log('comparacion ', characters.occupation.includes(dropDrownValue));
-    // return characters.occupation.includes(dropDrownValue)
-    
-      return characters.occupation.includes(dropDrownValue) || dropDrownValue === "all"
-    
-    
-    
+    return characters.occupation.includes(dropDrownValue) || dropDrownValue === "all"
   })
   console.log("filteredOccupation", filteredOccupation);
   createCards(filteredOccupation);
 };
 
-
-// to fix the error of the foto missing
-const images = document.querySelectorAll("img");
-for (let i = 0; i < images.length; i++) {
-  images[i].addEventListener("error", function () {
-    images[i].src =
-      "https://t4.ftcdn.net/jpg/03/46/93/61/360_F_346936114_RaxE6OQogebgAWTalE1myseY1Hbb5qPM.jpg";
-  });
-}
-
-// to add the effect of the popover with bootstrap
-const popoverTriggerList = document.querySelectorAll(
-  '[data-bs-toggle="popover"]'
-);
-const popoverList = [...popoverTriggerList].map(
-  (popoverTriggerEl) => new bootstrap.Popover(popoverTriggerEl)
-);
-
-
-
-
-////////////////////
-
+// GENERATE CHECKBOXES FOR EXPERIENCE
 const checkboxes = document.querySelectorAll(".form-check-input");
-console.log("checkboxes :>> ", checkboxes);
+// console.log("checkboxes :>> ", checkboxes);
 checkboxes.forEach((checkbox) => {
-  checkbox.addEventListener("click", checkboxFuncion);
+  checkbox.addEventListener("click", createCheckbox);
 });
 
-function checkboxFuncion(event) {
+function createCheckbox(event) {
   // console.log(event.target.value);
   // console.log('event :>> ', event.target.value);
 
   const checkedCheckboxes = document.querySelectorAll(
     "input[type=checkbox]:checked"
   );
-  console.log("checkedCheckboxes :>> ", checkedCheckboxes);
+  // console.log("checkedCheckboxes :>> ", checkedCheckboxes);
 
   const checkboxesValues = Array.from(checkedCheckboxes).map(
     (checkedCheckbox) => {
       return checkedCheckbox.value;
     }
   );
-  console.log("checkboxesValues :>> ", checkboxesValues);
+  // console.log("checkboxesValues :>> ", checkboxesValues);
 }
 
+// EVENT LISTENER FOR THE CHECKBOXES
+//Type Error: "addEventListener is not a function" 
+// const addEventCheckbox = (characters) => {
+//   document.querySelectorAll("input[type=checkbox]:checked").addEventListener("click", (event) => {
+//     console.log("checkbox worked");
+//     filterByCheckbox(characters);
+//   });
+// };
+const checkbox = document.getElementsByClassName('formCheckInput');
+console.log(checkbox);
 
-const searchBar = document.querySelector(".form-control")
-console.log(searchBar);
-
-searchBar.addEventListener("change", (event)=> {
-
-  console.log("sadasda");
+checkbox[0].addEventListener("click", function onClick() {
+  console.log("checkbox clicked")
 })
+
+for (const formCheckInput of checkbox) {
+  formCheckInput.addEventListener("click", function onClick() {
+    console.log("box clicked")
+  })
+}
+
+// FILTER BY CHECKBOX
+const filterByCheckbox = (characters) => {
+  console.log("checkeddddd");
+  const checkboxValue = document.querySelectorAll(".form-check-input").value;
+  console.log("checkboxValue", checkboxValue);
+
+  const checkedExperience = characters.filter((characters) => {
+    return characters.occupation.includes(checkboxValue) || checkboxValue === "all"
+  })
+  console.log("checkedExperience", checkedExperience);
+  createCards(checkedExperience);
+};
+
+
+
+
+
+// // to fix the error of the foto missing
+// const images = document.querySelectorAll("img");
+// for (let i = 0; i < images.length; i++) {
+//   images[i].addEventListener("error", function () {
+//     images[i].src =
+//       "https://t4.ftcdn.net/jpg/03/46/93/61/360_F_346936114_RaxE6OQogebgAWTalE1myseY1Hbb5qPM.jpg";
+//   });
+// }
+
+// // to add the effect of the popover with bootstrap
+// const popoverTriggerList = document.querySelectorAll(
+//   '[data-bs-toggle="popover"]'
+// );
+// const popoverList = [...popoverTriggerList].map(
+//   (popoverTriggerEl) => new bootstrap.Popover(popoverTriggerEl)
+// );
+
+
+
+
+////////////////////
+
+
+// const searchBar = document.querySelector(".form-control")
+// console.log(searchBar);
+
+// searchBar.addEventListener("change", (event)=> {
+
+//   console.log("sadasda");
+// })
