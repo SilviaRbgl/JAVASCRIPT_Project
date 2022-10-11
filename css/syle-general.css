@@ -31,9 +31,9 @@ main {
     border: none;
 }
 
-.card-img-top {
+/* .card-img-top {
     width: 12rem;
-}
+} */
 
 .row {
     display: flex;

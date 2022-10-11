@@ -4,55 +4,40 @@
 //     console.log("status >>>", data[i].status);
 // }
 
-// fetching the data - version larga
-// function getData() {
-//   let url = "https://www.breakingbadapi.com/api/characters";
-//   fetch(url)
-//     .then((response) => {
-//       console.log("response >>>", response);
-//       return response.json();
-//     })
-//     .then((result) => {
-//       console.log("result >>>", result);
-//       let myData = result;
-//       printData(myData);
-//     })
-//     .catch((error) => console.log(error));
-// }
-
-// function printData(info) {
-//     console.log("info", info);  
-// }
-// getData();
-
-// fetching the data - version corta
+// FETCHING THE DATA
 const getData = () => {
-    fetch("https://www.breakingbadapi.com/api/characters")
+  fetch("https://www.breakingbadapi.com/api/characters")
     .then((response) => {
-        return response.json();
+      console.log("response :>> ", response);
+      return response.json();
     })
     .then((result) => {
-        console.log("data", result)
-        createCards(result.response);
-        // createDropdown(result.response);
-    }); 
-}
-getData ();
-    // TypeError: "data" is not defined at createCards.
+      console.log("data", result);
+      createCards(result);
+      createDropdown(result);
+      addEventShowHide();
+    })
+    .catch((error) => console.log(error));
+};
+getData();
 
-// to create the cards
-function createCards() { 
+// CONTROLLER FUNCTION
+// function controller() {
+// }
+
+// FUNCTION FOR CREATING THE CARDS
+function createCards(characters) {
   let containerCards = document.getElementById("container-cards");
 
-  for (let i = 0; i < data.length; i++) {
+  for (let i = 0; i < characters.length; i++) {
     let divCard = document.createElement("div");
     // divCard.setAttribute("style", "width: 12rem;");
     divCard.setAttribute("class", "col-sm-6 col-md-3");
     divCard.classList.add("card");
 
     let img = document.createElement("img");
-    img.setAttribute("src", data[i].img);
-    img.setAttribute("alt", data[i].name);
+    img.setAttribute("src", characters[i].img);
+    img.setAttribute("alt", characters[i].name);
     img.setAttribute("referrerpolicy", "no-referrer");
     img.classList.add("card-img-top");
     // console.log(i, data[i].name, img);
@@ -66,15 +51,18 @@ function createCards() {
     buttonCard.setAttribute("class", "btn btn-dark");
     buttonCard.setAttribute("data-bs-toggle", "popover");
     buttonCard.setAttribute("data-bs-title", "Congratulations");
-    buttonCard.setAttribute("data-bs-content", "You hired " + data[i].name);
+    buttonCard.setAttribute(
+      "data-bs-content",
+      "You hired " + characters[i].name
+    );
 
     let h5 = document.createElement("h5");
     h5.classList.add("card-title");
-    h5.innerText = data[i].name;
+    h5.innerText = characters[i].name;
 
     let p = document.createElement("p");
     p.classList.add("card-text");
-    p.innerText = data[i].occupation;
+    p.innerText = characters[i].occupation;
 
     divCardBody.appendChild(h5);
     divCardBody.appendChild(p);
@@ -92,17 +80,16 @@ function createCards() {
   }
 }
 
-// display show filters/hide filters
-function addEvents() {
+// EVENT LISTENER FOR SHOW/HIDE FILTERS
+function addEventShowHide() {
   let btnShowFilters = document.getElementById("btn-show-filters");
   btnShowFilters.addEventListener("click", showMore);
 }
-addEvents();
 
 function showMore() {
-  let showFilters = document.getElementById("filters-occupation");
+  let showFilters = document.getElementById("filters");
   let btnShowFilters = document.getElementById("btn-show-filters");
-//   console.log(showFilters.style.display);
+  // console.log(showFilters.style.display);
 
   if (showFilters.style.display === "none") {
     btnShowFilters.innerHTML = "Hide filters";
@@ -114,31 +101,40 @@ function showMore() {
   }
 }
 
-// generate dropdown options
-const createDropdown = (occupations) => {
-    const dropdown = document.getElementById("occupationDropdown");
+// GENERATE DROPDOWN FOR OCCUPATIONS
+const createDropdown = (result) => {
+  const dropdown = document.getElementById("occupationDropdown");
+  let charactersOccupationsArrays = [];
+  let occupationsArray = [];
 
-    const occupations = occupations.map((occupation) => {
-        return data.occupation;
-    });
-    const uniqueOccupations = [...new Set(occupations)];
-    console.log("unique >>>", uniqueOccupations); 
+  for (let i = 0; i < result.length; i++) {
+    let characterOcuppations = result[i].occupation;
+    for (let b = 0; b < characterOcuppations.length; b++) {
+      occupationsArray.push(characterOcuppations[b]);
+      // console.log('occupationsArray :>> ', occupationsArray);
+    }
+    charactersOccupationsArrays.push(characterOcuppations);
+    // console.log('charactersOccupationsArray :>> ', charactersOccupationsArrays);
+  }
 
-    occupations.forEach((occupation) => {
-        let option = createElement("option");
-        option.innerText = data[i].occupation;
-        option.value = data[i].occupation;
-        // TypeError: Cannot read properties of undefined (reading 'forEach') at createDropdown
-        // data[i]? QUé poner en su lugar? 
-        dropdown.appendChild(option)
-    });
-    
-}
+  const uniqueOccupations = [...new Set(occupationsArray)];
+  // console.log("unique >>>", uniqueOccupations);
 
+  uniqueOccupations.map((occupation) => {
+    // console.log('occupation :>> ', occupation);
+    let option = document.createElement("option");
+    option.innerText = occupation;
+    option.value = occupation;
 
-// controller function
-function controller() {
-}
+    dropdown.appendChild(option);
+  });
+};
+
+// EVENT LISTENER FOR THE DROPDOWN
+const addEventDropdown = () => {
+  document.querySelector("#occupationDropdown").addEventListener("change", (event) => {});
+};
+
 
 // to fix the error of the foto missing
 const images = document.querySelectorAll("img");
@@ -156,3 +152,26 @@ const popoverTriggerList = document.querySelectorAll(
 const popoverList = [...popoverTriggerList].map(
   (popoverTriggerEl) => new bootstrap.Popover(popoverTriggerEl)
 );
+
+const checkboxes = document.querySelectorAll(".form-check-input");
+console.log("checkboxes :>> ", checkboxes);
+checkboxes.forEach((checkbox) => {
+  checkbox.addEventListener("click", checkboxFuncion);
+});
+
+function checkboxFuncion(event) {
+  // console.log(event.target.value);
+  // console.log('event :>> ', event.target.value);
+
+  const checkedCheckboxes = document.querySelectorAll(
+    "input[type=checkbox]:checked"
+  );
+  console.log("checkedCheckboxes :>> ", checkedCheckboxes);
+
+  const checkboxesValues = Array.from(checkedCheckboxes).map(
+    (checkedCheckbox) => {
+      return checkedCheckbox.value;
+    }
+  );
+  console.log("checkboxesValues :>> ", checkboxesValues);
+}
