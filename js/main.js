@@ -30,12 +30,13 @@ function controller(result) {
   // dropdown occupations
   createDropdown(result);
   // event listener dropdown
-
+  addEventDropdown(result);
 }
 
 // FUNCTION FOR CREATING THE CARDS
 function createCards(characters) {
   let containerCards = document.getElementById("container-cards");
+  containerCards.innerText = "";
 
   for (let i = 0; i < characters.length; i++) {
     let divCard = document.createElement("div");
@@ -139,8 +140,31 @@ const createDropdown = (result) => {
 };
 
 // EVENT LISTENER FOR THE DROPDOWN
-const addEventDropdown = () => {
-  document.querySelector("#occupationDropdown").addEventListener("change", (event) => {});
+const addEventDropdown = (characters) => {
+  document.querySelector("#occupationDropdown").addEventListener("change", (event) => {
+    console.log("dropdown worked");
+    filterByDropdown(characters);
+  });
+};
+
+// FILTER BY DROPDOWN
+const filterByDropdown = (characters) => {
+  console.log("dropdoweddddd");
+  const dropDrownValue = document.querySelector("#occupationDropdown").value;
+  console.log("dropDrownValue", dropDrownValue);
+
+  const filteredOccupation = characters.filter((characters) => {
+  
+    // console.log('comparacion ', characters.occupation.includes(dropDrownValue));
+    // return characters.occupation.includes(dropDrownValue)
+    
+      return characters.occupation.includes(dropDrownValue) || dropDrownValue === "all"
+    
+    
+    
+  })
+  console.log("filteredOccupation", filteredOccupation);
+  createCards(filteredOccupation);
 };
 
 
@@ -164,7 +188,7 @@ const popoverList = [...popoverTriggerList].map(
 
 
 
-
+////////////////////
 
 const checkboxes = document.querySelectorAll(".form-check-input");
 console.log("checkboxes :>> ", checkboxes);
@@ -188,3 +212,12 @@ function checkboxFuncion(event) {
   );
   console.log("checkboxesValues :>> ", checkboxesValues);
 }
+
+
+const searchBar = document.querySelector(".form-control")
+console.log(searchBar);
+
+searchBar.addEventListener("change", (event)=> {
+
+  console.log("sadasda");
+})

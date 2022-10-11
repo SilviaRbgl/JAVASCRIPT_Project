@@ -21,6 +21,10 @@ main {
     max-width: 500px;
 }
 
+.container-search{
+    background-color: #C0B8D9;
+    padding: 20px;
+}
 .card {
     margin: 20px;
     --bs-card-border-radius: 3rem;
@@ -39,9 +43,11 @@ main {
     display: flex;
     justify-content: space-evenly;
 }
-.container{
+
+/* .container{
     margin: 0px;
-}
+} */
+
 .container p {
     font-size: 1rem;
 }
