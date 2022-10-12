@@ -12,8 +12,8 @@ const getData = () => {
       return response.json();
     })
     .then((result) => {
-      console.log("data", result);      
-      controller(result)
+      console.log("data", result);
+      controller(result);
     })
     .catch((error) => console.log(error));
 };
@@ -34,7 +34,7 @@ function controller(result) {
   // checkbox experience
   createCheckbox(result);
   // event listener checkbox
-  // addEventCheckbox(result);
+  addEventCheckbox(result);
 }
 
 // FUNCTION FOR CREATING THE CARDS
@@ -144,10 +144,12 @@ const createDropdown = (result) => {
 
 // EVENT LISTENER FOR THE DROPDOWN
 const addEventDropdown = (characters) => {
-  document.querySelector("#occupationDropdown").addEventListener("change", (event) => {
-    console.log("dropdown worked");
-    filterByDropdown(characters);
-  });
+  document
+    .querySelector("#occupationDropdown")
+    .addEventListener("change", (event) => {
+      console.log("dropdown worked");
+      filterByDropdown(characters);
+    });
 };
 
 // FILTER BY DROPDOWN
@@ -157,8 +159,10 @@ const filterByDropdown = (characters) => {
   console.log("dropDrownValue", dropDrownValue);
 
   const filteredOccupation = characters.filter((characters) => {
-    return characters.occupation.includes(dropDrownValue) || dropDrownValue === "all"
-  })
+    return (
+      characters.occupation.includes(dropDrownValue) || dropDrownValue === "all"
+    );
+  });
   console.log("filteredOccupation", filteredOccupation);
   createCards(filteredOccupation);
 };
@@ -188,51 +192,46 @@ function createCheckbox(event) {
 }
 
 // EVENT LISTENER FOR THE CHECKBOXES
-//Type Error: "addEventListener is not a function" 
-// const addEventCheckbox = (characters) => {
-//   document.querySelectorAll("input[type=checkbox]:checked").addEventListener("click", (event) => {
-//     console.log("checkbox worked");
-//     filterByCheckbox(characters);
-//   });
-// };
-const checkbox = document.getElementsByClassName('formCheckInput');
-console.log(checkbox);
+const addEventCheckbox = (characters) => {
+  document
+    .querySelector("#experienceCheckbox")
+    .addEventListener("click", (event) => {
+      console.log("checkbox worked");
 
-checkbox[0].addEventListener("click", function onClick() {
-  console.log("checkbox clicked")
-})
-
-for (const formCheckInput of checkbox) {
-  formCheckInput.addEventListener("click", function onClick() {
-    console.log("box clicked")
-  })
-}
+      filterByCheckbox(characters);
+    });
+};
 
 // FILTER BY CHECKBOX
 const filterByCheckbox = (characters) => {
-  console.log("checkeddddd");
-  const checkboxValue = document.querySelectorAll(".form-check-input").value;
-  console.log("checkboxValue", checkboxValue);
+  console.log("its checked");
+
+  const checkboxValue = document.querySelectorAll(".formCheckInput");
+  console.log("checkboxValue >>", checkboxValue);
+  const checkedCheckboxes =[]
+  for (let i = 0; i < checkboxValue.length; i++) {
+    if(checkboxValue[i].checked === true){
+      checkedCheckboxes.push(checkboxValue[i].value)
+    }
+    console.log('checkedCheckboxes :>> ', checkedCheckboxes);
+  }
 
   const checkedExperience = characters.filter((characters) => {
-    return characters.occupation.includes(checkboxValue) || checkboxValue === "all"
+    return characters.status.includes(checkedCheckboxes)
   })
   console.log("checkedExperience", checkedExperience);
   createCards(checkedExperience);
+  // Son categorias excluyentes, es decir, no te van a salir dos resultados a la vez. Se puede hacer que cuando solo se haga click en uno?
 };
 
-
-
-
-
-// // to fix the error of the foto missing
-// const images = document.querySelectorAll("img");
-// for (let i = 0; i < images.length; i++) {
-//   images[i].addEventListener("error", function () {
-//     images[i].src =
-//       "https://t4.ftcdn.net/jpg/03/46/93/61/360_F_346936114_RaxE6OQogebgAWTalE1myseY1Hbb5qPM.jpg";
-//   });
-// }
+// ERROR OF THE FOTO MISSING
+const images = document.querySelectorAll("img");
+for (let i = 0; i < images.length; i++) {
+  images[i].addEventListener("error", function () {
+    images[i].src =
+      "https://t4.ftcdn.net/jpg/03/46/93/61/360_F_346936114_RaxE6OQogebgAWTalE1myseY1Hbb5qPM.jpg";
+  });
+}
 
 // // to add the effect of the popover with bootstrap
 // const popoverTriggerList = document.querySelectorAll(
@@ -242,11 +241,7 @@ const filterByCheckbox = (characters) => {
 //   (popoverTriggerEl) => new bootstrap.Popover(popoverTriggerEl)
 // );
 
-
-
-
 ////////////////////
-
 
 // const searchBar = document.querySelector(".form-control")
 // console.log(searchBar);
