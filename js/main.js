@@ -35,6 +35,9 @@ function controller(result) {
   createCheckbox(result);
   // event listener checkbox
   addEventCheckbox(result);
+  // images error
+  imageError(result);
+
 }
 
 // FUNCTION FOR CREATING THE CARDS
@@ -44,13 +47,15 @@ function createCards(characters) {
 
   for (let i = 0; i < characters.length; i++) {
     let divCard = document.createElement("div");
-    // divCard.setAttribute("style", "width: 12rem;");
+    divCard.setAttribute("style", "width: 20rem;");
     divCard.setAttribute("class", "col-sm-6 col-md-3");
     divCard.classList.add("card");
 
     let img = document.createElement("img");
     img.setAttribute("src", characters[i].img);
     img.setAttribute("alt", characters[i].name);
+    img.setAttribute("style", "width: 16rem;");
+    img.setAttribute("style", "height: 22rem;");
     img.setAttribute("referrerpolicy", "no-referrer");
     img.classList.add("card-img-top");
     // console.log(i, data[i].name, img);
@@ -221,19 +226,32 @@ const filterByCheckbox = (characters) => {
   })
   console.log("checkedExperience", checkedExperience);
   createCards(checkedExperience);
-  // Son categorias excluyentes, es decir, no te van a salir dos resultados a la vez. Se puede hacer que cuando solo se haga click en uno?
+  // Son categorias excluyentes, es decir, no te van a salir dos resultados a la vez.
+  // Se puede hacer que cuando se haga click en uno, los otros se "desclicken"?
 };
 
 // ERROR OF THE FOTO MISSING
-const images = document.querySelectorAll("img");
-for (let i = 0; i < images.length; i++) {
-  images[i].addEventListener("error", function () {
-    images[i].src =
-      "https://t4.ftcdn.net/jpg/03/46/93/61/360_F_346936114_RaxE6OQogebgAWTalE1myseY1Hbb5qPM.jpg";
-  });
+function imageError(characters) {
+  let images = characters.img;
+  console.log("images >>>", images);
+  // images es "undefined" ???
+  // for (let i = 0; i < images.length; i++) {
+  //   images.addEventListener("error", function () {
+  //     images.src =
+  //       "https://t4.ftcdn.net/jpg/03/46/93/61/360_F_346936114_RaxE6OQogebgAWTalE1myseY1Hbb5qPM.jpg";
+  //   });
+  // }
 }
+// const images = document.querySelectorAll("img");
+// for (let i = 0; i < images.length; i++) {
+//   images[i].addEventListener("error", function () {
+//     images[i].src =
+//       "https://t4.ftcdn.net/jpg/03/46/93/61/360_F_346936114_RaxE6OQogebgAWTalE1myseY1Hbb5qPM.jpg";
+//   });
+// }
 
-// // to add the effect of the popover with bootstrap
+
+// POPOVER EFFECT BOOTSTRAP
 // const popoverTriggerList = document.querySelectorAll(
 //   '[data-bs-toggle="popover"]'
 // );
