@@ -193,7 +193,6 @@ const filterByCheckbox = (characters) => {
   }
 
   const checkedExperience = characters.filter((characters) => {
-    // return characters.status.includes(checkedCheckboxes)
     return checkedCheckboxes.includes(characters.status) || (checkedCheckboxes.length == 0)
   })
   console.log("checkedExperience", checkedExperience);
@@ -201,6 +200,21 @@ const filterByCheckbox = (characters) => {
 };
 
 // FUNCTION FOR GENERATE SEARCH BAR FOR OCCUPATION
+const filterBySearchBar = (characters) => {
+  console.log("im typing");
+  const typeSeachBar = []
+  for (let i = 0; i < characters.length; i++) {
+    if (typeSeachBar === characters.occupation) {
+      //AQUI ME RINDO
+    }
+  }
+
+  const textSearchBar = characters.filter((characters) => {
+    return typeSeachBar.includes(characters.occupation)
+  })
+  console.log("textSearchBar >>", textSearchBar);
+                                                                                                                                                  
+};
 
 
 
@@ -224,6 +238,7 @@ const addEvents = (characters) => {
     .querySelector("#searchInput")
     .addEventListener("keydown", (event) => {
       console.log("searchBar worked");
+      filterBySearchBar(characters);
     });
 };
 
