@@ -8,7 +8,7 @@
 const getData = () => {
   fetch("https://www.breakingbadapi.com/api/characters")
     .then((response) => {
-      console.log("response :>> ", response);
+      // console.log("response :>> ", response);
       return response.json();
     })
     .then((result) => {
@@ -18,6 +18,7 @@ const getData = () => {
     .catch((error) => console.log(error));
 };
 getData();
+
 
 // CONTROLLER FUNCTION
 function controller(result) {
@@ -29,16 +30,14 @@ function controller(result) {
   addEventShowHide();
   // dropdown occupations
   createDropdown(result);
-  // event listener dropdown
-  addEventDropdown(result);
   // checkbox experience
   createCheckbox(result);
-  // event listener checkbox
-  addEventCheckbox(result);
+  // add events
+  addEvents(result)
   // images error
-  imageError(result);
-
+  // imageError(result);
 }
+
 
 // FUNCTION FOR CREATING THE CARDS
 function createCards(characters) {
@@ -89,12 +88,6 @@ function createCards(characters) {
     containerCards.appendChild(divCard);
     divCardBody.appendChild(img);
     divCardBody.appendChild(buttonCard);
-
-    // let today = new Date(data[i].birthday).toLocaleString("zh-CN")
-    // console.log('today :>> ', today);
-    // let age = data[i].birthday
-    // console.log('age :>> ', age);
-    // console.log('typeof :>> ', typeof age);
   }
 }
 
@@ -118,6 +111,36 @@ function showMore() {
     // console.log(showFilters.style.display);
   }
 }
+
+// GENERATE SEARCH BAR FOR OCCUPATIONS
+const createSearchBar = (result) => {
+  console.log("I can type");
+  const searchBar = document.getElementById("searchInput");
+  let charactersOccupationsArrays = [];
+  let occupationsArray = [];
+
+  for (let i = 0; i < result.length; i++) {
+    let characterOcuppations = result[i].occupation;
+    for (let b = 0; b < characterOcuppations.length; b++) {
+      occupationsArray.push(characterOcuppations[b]);
+      // console.log("occupationsArray>", occupationsArray);
+    }
+    charactersOccupationsArrays.push(characterOcuppations);
+  }
+
+  const uniqueOccupations = [...new Set(occupationsArray)];
+  // console.log("unique >>>", uniqueOccupations);
+  uniqueOccupations.map((occupation) => {
+    console.log('occupation :>> ', occupation);
+    let option = document.createElement("option");
+    option.innerText = occupation;
+    option.value = occupation;
+
+    searchBar.appendChild(option);
+  }); 
+  };
+
+
 
 // GENERATE DROPDOWN FOR OCCUPATIONS
 const createDropdown = (result) => {
@@ -147,19 +170,10 @@ const createDropdown = (result) => {
   });
 };
 
-// EVENT LISTENER FOR THE DROPDOWN
-const addEventDropdown = (characters) => {
-  document
-    .querySelector("#occupationDropdown")
-    .addEventListener("change", (event) => {
-      console.log("dropdown worked");
-      filterByDropdown(characters);
-    });
-};
 
 // FILTER BY DROPDOWN
 const filterByDropdown = (characters) => {
-  console.log("dropdoweddddd");
+  // console.log("dropdoweddddd");
   const dropDrownValue = document.querySelector("#occupationDropdown").value;
   console.log("dropDrownValue", dropDrownValue);
 
@@ -172,6 +186,7 @@ const filterByDropdown = (characters) => {
   createCards(filteredOccupation);
 };
 
+
 // GENERATE CHECKBOXES FOR EXPERIENCE
 const checkboxes = document.querySelectorAll(".form-check-input");
 // console.log("checkboxes :>> ", checkboxes);
@@ -180,9 +195,6 @@ checkboxes.forEach((checkbox) => {
 });
 
 function createCheckbox(event) {
-  // console.log(event.target.value);
-  // console.log('event :>> ', event.target.value);
-
   const checkedCheckboxes = document.querySelectorAll(
     "input[type=checkbox]:checked"
   );
@@ -196,16 +208,32 @@ function createCheckbox(event) {
   // console.log("checkboxesValues :>> ", checkboxesValues);
 }
 
-// EVENT LISTENER FOR THE CHECKBOXES
-const addEventCheckbox = (characters) => {
+
+// EVENT LISTENER
+const addEvents = (characters) => {
   document
     .querySelector("#experienceCheckbox")
     .addEventListener("click", (event) => {
       console.log("checkbox worked");
-
       filterByCheckbox(characters);
     });
+
+  document
+    .querySelector("#occupationDropdown")
+    .addEventListener("change", (event) => {
+      console.log("dropdown worked");
+      filterByDropdown(characters);
+    });
+
+  document
+    .querySelector("#searchInput")
+    .addEventListener("click", (event)=> {
+      console.log("searchBar worked");
+      createSearchBar(characters);
+    });
 };
+
+  
 
 // FILTER BY CHECKBOX
 const filterByCheckbox = (characters) => {
@@ -218,22 +246,28 @@ const filterByCheckbox = (characters) => {
     if(checkboxValue[i].checked === true){
       checkedCheckboxes.push(checkboxValue[i].value)
     }
-    console.log('checkedCheckboxes :>> ', checkedCheckboxes);
+    console.log('checkedCheckboxes :>> ', checkedCheckboxes.length);
   }
 
   const checkedExperience = characters.filter((characters) => {
-    return characters.status.includes(checkedCheckboxes)
+    // return characters.status.includes(checkedCheckboxes)
+    return checkedCheckboxes.includes(characters.status) || (checkedCheckboxes.length == 0)
   })
   console.log("checkedExperience", checkedExperience);
-  createCards(checkedExperience);
-  // Son categorias excluyentes, es decir, no te van a salir dos resultados a la vez.
-  // Se puede hacer que cuando se haga click en uno, los otros se "desclicken"?
+  createCards(checkedExperience);                                                                                                                                                    
 };
 
+
+// EVENT LISTENER FOR SEARCHBAR
+
+
+
+
+
 // ERROR OF THE FOTO MISSING
-function imageError(characters) {
-  let images = characters.img;
-  console.log("images >>>", images);
+// function imageError(characters) {
+//   let images = characters.img;
+//   console.log("images >>>", images);
   // images es "undefined" ???
   // for (let i = 0; i < images.length; i++) {
   //   images.addEventListener("error", function () {
@@ -241,7 +275,7 @@ function imageError(characters) {
   //       "https://t4.ftcdn.net/jpg/03/46/93/61/360_F_346936114_RaxE6OQogebgAWTalE1myseY1Hbb5qPM.jpg";
   //   });
   // }
-}
+// }
 // const images = document.querySelectorAll("img");
 // for (let i = 0; i < images.length; i++) {
 //   images[i].addEventListener("error", function () {
@@ -259,12 +293,3 @@ function imageError(characters) {
 //   (popoverTriggerEl) => new bootstrap.Popover(popoverTriggerEl)
 // );
 
-////////////////////
-
-// const searchBar = document.querySelector(".form-control")
-// console.log(searchBar);
-
-// searchBar.addEventListener("change", (event)=> {
-
-//   console.log("sadasda");
-// })
