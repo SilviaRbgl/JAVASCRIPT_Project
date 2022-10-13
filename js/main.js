@@ -112,37 +112,8 @@ function showMore() {
   }
 }
 
-// GENERATE SEARCH BAR FOR OCCUPATIONS
-const createSearchBar = (result) => {
-  console.log("I can type");
-  const searchBar = document.getElementById("searchInput");
-  let charactersOccupationsArrays = [];
-  let occupationsArray = [];
 
-  for (let i = 0; i < result.length; i++) {
-    let characterOcuppations = result[i].occupation;
-    for (let b = 0; b < characterOcuppations.length; b++) {
-      occupationsArray.push(characterOcuppations[b]);
-      // console.log("occupationsArray>", occupationsArray);
-    }
-    charactersOccupationsArrays.push(characterOcuppations);
-  }
-
-  const uniqueOccupations = [...new Set(occupationsArray)];
-  // console.log("unique >>>", uniqueOccupations);
-  uniqueOccupations.map((occupation) => {
-    console.log('occupation :>> ', occupation);
-    let option = document.createElement("option");
-    option.innerText = occupation;
-    option.value = occupation;
-
-    searchBar.appendChild(option);
-  }); 
-  };
-
-
-
-// GENERATE DROPDOWN FOR OCCUPATIONS
+// FUNCTION FOR GENERATE DROPDOWN FOR OCCUPATIONS
 const createDropdown = (result) => {
   const dropdown = document.getElementById("occupationDropdown");
   let charactersOccupationsArrays = [];
@@ -170,24 +141,23 @@ const createDropdown = (result) => {
   });
 };
 
-
-// FILTER BY DROPDOWN
+// FUNCTION FOR GENERATE FILTERS FOR OCCUPATIONS
 const filterByDropdown = (characters) => {
   // console.log("dropdoweddddd");
   const dropDrownValue = document.querySelector("#occupationDropdown").value;
-  console.log("dropDrownValue", dropDrownValue);
+  // console.log("dropDrownValue", dropDrownValue);
 
   const filteredOccupation = characters.filter((characters) => {
     return (
       characters.occupation.includes(dropDrownValue) || dropDrownValue === "all"
     );
   });
-  console.log("filteredOccupation", filteredOccupation);
+  // console.log("filteredOccupation", filteredOccupation);
   createCards(filteredOccupation);
 };
 
 
-// GENERATE CHECKBOXES FOR EXPERIENCE
+// FUNCTION FOR GENERATE CHECKBOXES FOR EXPERIENCE
 const checkboxes = document.querySelectorAll(".form-check-input");
 // console.log("checkboxes :>> ", checkboxes);
 checkboxes.forEach((checkbox) => {
@@ -208,6 +178,31 @@ function createCheckbox(event) {
   // console.log("checkboxesValues :>> ", checkboxesValues);
 }
 
+// // FUNCTION FOR GENERATE FILTERS FOR EXPERIENCE
+const filterByCheckbox = (characters) => {
+  // console.log("its checked");
+
+  const checkboxValue = document.querySelectorAll(".formCheckInput");
+  // console.log("checkboxValue >>", checkboxValue);
+  const checkedCheckboxes =[]
+  for (let i = 0; i < checkboxValue.length; i++) {
+    if(checkboxValue[i].checked === true){
+      checkedCheckboxes.push(checkboxValue[i].value)
+    }
+    console.log('checkedCheckboxes :>> ', checkedCheckboxes.length);
+  }
+
+  const checkedExperience = characters.filter((characters) => {
+    // return characters.status.includes(checkedCheckboxes)
+    return checkedCheckboxes.includes(characters.status) || (checkedCheckboxes.length == 0)
+  })
+  console.log("checkedExperience", checkedExperience);
+  createCards(checkedExperience);                                                                                                                                                    
+};
+
+// FUNCTION FOR GENERATE SEARCH BAR FOR OCCUPATION
+
+
 
 // EVENT LISTENER
 const addEvents = (characters) => {
@@ -225,71 +220,29 @@ const addEvents = (characters) => {
       filterByDropdown(characters);
     });
 
-  document
-    .querySelector("#searchInput")
-    .addEventListener("click", (event)=> {
-      console.log("searchBar worked");
-      createSearchBar(characters);
+};
+
+
+
+
+// FUNCTION TO REPLACE A FOTO MISSING
+const imageError = (characters) => {
+  let images = document.querySelectorAll("img");
+
+  for (let i = 0; i < images.length; i++) {
+    images.addEventListener("error", function () {
+      images.src =
+        "https://t4.ftcdn.net/jpg/03/46/93/61/360_F_346936114_RaxE6OQogebgAWTalE1myseY1Hbb5qPM.jpg";
     });
-};
-
-  
-
-// FILTER BY CHECKBOX
-const filterByCheckbox = (characters) => {
-  console.log("its checked");
-
-  const checkboxValue = document.querySelectorAll(".formCheckInput");
-  console.log("checkboxValue >>", checkboxValue);
-  const checkedCheckboxes =[]
-  for (let i = 0; i < checkboxValue.length; i++) {
-    if(checkboxValue[i].checked === true){
-      checkedCheckboxes.push(checkboxValue[i].value)
-    }
-    console.log('checkedCheckboxes :>> ', checkedCheckboxes.length);
   }
-
-  const checkedExperience = characters.filter((characters) => {
-    // return characters.status.includes(checkedCheckboxes)
-    return checkedCheckboxes.includes(characters.status) || (checkedCheckboxes.length == 0)
-  })
-  console.log("checkedExperience", checkedExperience);
-  createCards(checkedExperience);                                                                                                                                                    
-};
-
-
-// EVENT LISTENER FOR SEARCHBAR
-
-
-
-
-
-// ERROR OF THE FOTO MISSING
-// function imageError(characters) {
-//   let images = characters.img;
-//   console.log("images >>>", images);
-  // images es "undefined" ???
-  // for (let i = 0; i < images.length; i++) {
-  //   images.addEventListener("error", function () {
-  //     images.src =
-  //       "https://t4.ftcdn.net/jpg/03/46/93/61/360_F_346936114_RaxE6OQogebgAWTalE1myseY1Hbb5qPM.jpg";
-  //   });
-  // }
-// }
-// const images = document.querySelectorAll("img");
-// for (let i = 0; i < images.length; i++) {
-//   images[i].addEventListener("error", function () {
-//     images[i].src =
-//       "https://t4.ftcdn.net/jpg/03/46/93/61/360_F_346936114_RaxE6OQogebgAWTalE1myseY1Hbb5qPM.jpg";
-//   });
-// }
+}
 
 
 // POPOVER EFFECT BOOTSTRAP
-// const popoverTriggerList = document.querySelectorAll(
-//   '[data-bs-toggle="popover"]'
-// );
-// const popoverList = [...popoverTriggerList].map(
-//   (popoverTriggerEl) => new bootstrap.Popover(popoverTriggerEl)
-// );
+const popoverTriggerList = document.querySelectorAll(
+  '[data-bs-toggle="popover"]'
+);
+const popoverList = [...popoverTriggerList].map(
+  (popoverTriggerEl) => new bootstrap.Popover(popoverTriggerEl)
+);
 
