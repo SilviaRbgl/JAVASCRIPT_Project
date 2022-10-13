@@ -220,6 +220,11 @@ const addEvents = (characters) => {
       filterByDropdown(characters);
     });
 
+  document
+    .querySelector("#searchInput")
+    .addEventListener("keydown", (event) => {
+      console.log("searchBar worked");
+    });
 };
 
 
