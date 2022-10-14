@@ -19,7 +19,6 @@ const getData = () => {
 };
 getData();
 
-
 // CONTROLLER FUNCTION
 function controller(result) {
   //get the data
@@ -33,11 +32,10 @@ function controller(result) {
   // checkbox experience
   createCheckbox(result);
   // add events
-  addEvents(result)
+  addEvents(result);
   // images error
   // imageError(result);
 }
-
 
 // FUNCTION FOR CREATING THE CARDS
 function createCards(characters) {
@@ -112,7 +110,6 @@ function showMore() {
   }
 }
 
-
 // FUNCTION FOR GENERATE DROPDOWN FOR OCCUPATIONS
 const createDropdown = (result) => {
   const dropdown = document.getElementById("occupationDropdown");
@@ -141,10 +138,13 @@ const createDropdown = (result) => {
   });
 };
 
+
+
 // FUNCTION FOR GENERATE FILTERS FOR OCCUPATIONS
 const filterByDropdown = (characters) => {
   // console.log("dropdoweddddd");
   const dropDrownValue = document.querySelector("#occupationDropdown").value;
+  dropDrownValue;
   // console.log("dropDrownValue", dropDrownValue);
 
   const filteredOccupation = characters.filter((characters) => {
@@ -155,7 +155,6 @@ const filterByDropdown = (characters) => {
   // console.log("filteredOccupation", filteredOccupation);
   createCards(filteredOccupation);
 };
-
 
 // FUNCTION FOR GENERATE CHECKBOXES FOR EXPERIENCE
 const checkboxes = document.querySelectorAll(".form-check-input");
@@ -178,44 +177,32 @@ function createCheckbox(event) {
   // console.log("checkboxesValues :>> ", checkboxesValues);
 }
 
+
+
+
 // // FUNCTION FOR GENERATE FILTERS FOR EXPERIENCE
 const filterByCheckbox = (characters) => {
   // console.log("its checked");
 
   const checkboxValue = document.querySelectorAll(".formCheckInput");
   // console.log("checkboxValue >>", checkboxValue);
-  const checkedCheckboxes =[]
+  const checkedCheckboxes = [];
   for (let i = 0; i < checkboxValue.length; i++) {
-    if(checkboxValue[i].checked === true){
-      checkedCheckboxes.push(checkboxValue[i].value)
+    if (checkboxValue[i].checked === true) {
+      checkedCheckboxes.push(checkboxValue[i].value);
     }
-    console.log('checkedCheckboxes :>> ', checkedCheckboxes.length);
+    console.log("checkedCheckboxes :>> ", checkedCheckboxes.length);
   }
 
   const checkedExperience = characters.filter((characters) => {
-    return checkedCheckboxes.includes(characters.status) || (checkedCheckboxes.length == 0)
-  })
+    return (
+      checkedCheckboxes.includes(characters.status) ||
+      checkedCheckboxes.length == 0
+    );
+  });
   console.log("checkedExperience", checkedExperience);
-  createCards(checkedExperience);                                                                                                                                                    
+  createCards(checkedExperience);
 };
-
-// FUNCTION FOR GENERATE SEARCH BAR FOR OCCUPATION
-const filterBySearchBar = (characters) => {
-  console.log("im typing");
-  const typeSeachBar = []
-  for (let i = 0; i < characters.length; i++) {
-    if (typeSeachBar === characters.occupation) {
-      //AQUI ME RINDO
-    }
-  }
-
-  const textSearchBar = characters.filter((characters) => {
-    return typeSeachBar.includes(characters.occupation)
-  })
-  console.log("textSearchBar >>", textSearchBar);
-                                                                                                                                                  
-};
-
 
 
 // EVENT LISTENER
@@ -234,13 +221,38 @@ const addEvents = (characters) => {
       filterByDropdown(characters);
     });
 
+  let occupation = "";
+  document.getElementById("searchInput").addEventListener("input", (event) => {
+    occupation = event.target.value;
+    console.log("occupation :>> ", occupation);
+    filterBySearchBar(characters, occupation);
+  });
+
   document
     .querySelector("#searchInput")
     .addEventListener("keydown", (event) => {
       console.log("searchBar worked");
-      filterBySearchBar(characters);
+      console.log("esto es lo que mando al filter by occupation", occupation);
+      filterBySearchBar(characters, occupation);
     });
+  
 };
+
+
+// FUNCTION FOR GENERATE SEARCH BAR FOR OCCUPATION
+const filterBySearchBar = (characters, occupation) => {
+  console.log("occupation inside filter :>> ", occupation);
+  let filteredCharacters = characters.filter((character) => {
+    return character.occupation.includes(occupation);
+  });
+  console.log("filteredCharacters :>> ", filteredCharacters);
+  createCards(filteredCharacters);
+};
+
+
+
+
+
 
 
 
@@ -255,8 +267,7 @@ const imageError = (characters) => {
         "https://t4.ftcdn.net/jpg/03/46/93/61/360_F_346936114_RaxE6OQogebgAWTalE1myseY1Hbb5qPM.jpg";
     });
   }
-}
-
+};
 
 // POPOVER EFFECT BOOTSTRAP
 const popoverTriggerList = document.querySelectorAll(
@@ -265,4 +276,3 @@ const popoverTriggerList = document.querySelectorAll(
 const popoverList = [...popoverTriggerList].map(
   (popoverTriggerEl) => new bootstrap.Popover(popoverTriggerEl)
 );
-
