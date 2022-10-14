@@ -34,7 +34,7 @@ function controller(result) {
   // add events
   addEvents(result);
   // images error
-  // imageError(result);
+  
 }
 
 // FUNCTION FOR CREATING THE CARDS
@@ -61,15 +61,10 @@ function createCards(characters) {
     divCardBody.classList.add("card-body");
 
     let buttonCard = document.createElement("button");
-    buttonCard.innerText = "Hire me";
+    buttonCard.innerText = "More info";
     buttonCard.setAttribute("type", "button");
-    buttonCard.setAttribute("class", "btn btn-dark");
-    buttonCard.setAttribute("data-bs-toggle", "popover");
-    buttonCard.setAttribute("data-bs-title", "Congratulations");
-    buttonCard.setAttribute(
-      "data-bs-content",
-      "You hired " + characters[i].name
-    );
+    buttonCard.setAttribute("class", "btn btn-dark btn-show-more");
+    buttonCard.setAttribute("id", characters[i].char_id);
 
     let h5 = document.createElement("h5");
     h5.classList.add("card-title");
@@ -88,6 +83,8 @@ function createCards(characters) {
     divCardBody.appendChild(buttonCard);
   }
 }
+
+
 
 // EVENT LISTENER FOR SHOW/HIDE FILTERS
 function addEventShowHide() {
@@ -139,7 +136,6 @@ const createDropdown = (result) => {
 };
 
 
-
 // FUNCTION FOR GENERATE FILTERS FOR OCCUPATIONS
 const filterByDropdown = (characters) => {
   // console.log("dropdoweddddd");
@@ -155,6 +151,7 @@ const filterByDropdown = (characters) => {
   // console.log("filteredOccupation", filteredOccupation);
   createCards(filteredOccupation);
 };
+
 
 // FUNCTION FOR GENERATE CHECKBOXES FOR EXPERIENCE
 const checkboxes = document.querySelectorAll(".form-check-input");
@@ -178,9 +175,7 @@ function createCheckbox(event) {
 }
 
 
-
-
-// // FUNCTION FOR GENERATE FILTERS FOR EXPERIENCE
+// FUNCTION FOR GENERATE FILTERS FOR EXPERIENCE
 const filterByCheckbox = (characters) => {
   // console.log("its checked");
 
@@ -205,6 +200,21 @@ const filterByCheckbox = (characters) => {
 };
 
 
+// MORE INFO
+
+function addEventMoreInfo () {
+  let btnMoreInfo = document.getElementsByClassName("btn-show-more");
+  btnMoreInfo.addEventListener("click", (event) => {
+    btnMoreInfo = event.target.char_id;
+    showModal();
+  });
+}
+
+function showModal () {
+  let modal = document.getElementById("staticBackdrop");
+  
+}
+
 // EVENT LISTENER
 const addEvents = (characters) => {
   document
@@ -222,11 +232,13 @@ const addEvents = (characters) => {
     });
 
   let occupation = "";
-  document.getElementById("searchInput").addEventListener("input", (event) => {
-    occupation = event.target.value;
-    console.log("occupation :>> ", occupation);
-    filterBySearchBar(characters, occupation);
-  });
+  document
+    .getElementById("searchInput")
+    .addEventListener("input", (event) => {
+      occupation = event.target.value;
+      console.log("occupation :>> ", occupation);
+      filterBySearchBar(characters, occupation);
+    });
 
   document
     .querySelector("#searchInput")
@@ -252,27 +264,25 @@ const filterBySearchBar = (characters, occupation) => {
 
 
 
-
-
-
-
-
 // FUNCTION TO REPLACE A FOTO MISSING
 const imageError = (characters) => {
-  let images = document.querySelectorAll("img");
+  let images = (characters, img);
 
-  for (let i = 0; i < images.length; i++) {
+  for (let i = 0; i < characters.length; i++) {
     images.addEventListener("error", function () {
       images.src =
         "https://t4.ftcdn.net/jpg/03/46/93/61/360_F_346936114_RaxE6OQogebgAWTalE1myseY1Hbb5qPM.jpg";
     });
   }
+  imageError();
 };
 
-// POPOVER EFFECT BOOTSTRAP
-const popoverTriggerList = document.querySelectorAll(
-  '[data-bs-toggle="popover"]'
-);
-const popoverList = [...popoverTriggerList].map(
-  (popoverTriggerEl) => new bootstrap.Popover(popoverTriggerEl)
-);
+
+
+// MODAL (BOOTSTRAP)
+const myModal = document.getElementById('myModal')
+const myInput = document.getElementById('myInput')
+
+myModal.addEventListener('shown.bs.modal', () => {
+  myInput.focus()
+})
