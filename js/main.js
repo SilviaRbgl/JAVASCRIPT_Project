@@ -65,6 +65,7 @@ function createCards(characters) {
     buttonCard.setAttribute("type", "button");
     buttonCard.setAttribute("class", "btn btn-dark btn-show-more");
     buttonCard.setAttribute("id", characters[i].char_id);
+    // console.log("id>", characters[i].char_id);
 
     let h5 = document.createElement("h5");
     h5.classList.add("card-title");
@@ -200,20 +201,7 @@ const filterByCheckbox = (characters) => {
 };
 
 
-// MORE INFO
 
-function addEventMoreInfo () {
-  let btnMoreInfo = document.getElementsByClassName("btn-show-more");
-  btnMoreInfo.addEventListener("click", (event) => {
-    btnMoreInfo = event.target.char_id;
-    showModal();
-  });
-}
-
-function showModal () {
-  let modal = document.getElementById("staticBackdrop");
-  
-}
 
 // EVENT LISTENER
 const addEvents = (characters) => {
@@ -263,6 +251,44 @@ const filterBySearchBar = (characters, occupation) => {
 
 
 
+// MORE INFO
+
+function addEventMoreInfo () {
+  let btnMoreInfo = document.getElementsByClassName("btn-show-more");
+  btnMoreInfo.addEventListener("click", (event) => {
+    btnMoreInfo = event.target.char_id;
+    console.log("moreInfo worked");
+  
+  const myModal = document.getElementById('myModal')
+  const myInput = document.getElementById('myInput')
+    
+  myModal.addEventListener('shown.bs.modal', () => {
+    myInput.focus()
+    })
+  });
+}
+
+
+function showModal (characters) {
+  
+  let modalH1 = document.getElementById("modal-H1");
+  modalH1.h1 = characters.name;
+  
+  let textModal = document.getElementById("modal-text");
+  textModal.innerText = characters.occupation;
+  
+}
+console.log("showModal", showModal);
+
+/// MODAL (BOOTSTRAP)
+// const myModal = document.getElementById('myModal')
+// const myInput = document.getElementById('myInput')
+
+// myModal.addEventListener('shown.bs.modal', () => {
+//   myInput.focus()
+// })
+
+
 
 // FUNCTION TO REPLACE A FOTO MISSING
 const imageError = (characters) => {
@@ -279,10 +305,3 @@ const imageError = (characters) => {
 
 
 
-// MODAL (BOOTSTRAP)
-const myModal = document.getElementById('myModal')
-const myInput = document.getElementById('myInput')
-
-myModal.addEventListener('shown.bs.modal', () => {
-  myInput.focus()
-})
