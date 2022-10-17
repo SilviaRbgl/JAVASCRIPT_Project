@@ -100,14 +100,16 @@ const addEvents = (characters) => {
     .querySelector("#experienceCheckbox")
     .addEventListener("click", (event) => {
       console.log("checkbox worked");
-      filterByCheckbox(characters);
+      // filterByCheckbox(characters);
+      combinedFilters(characters);
     });
 
   document
     .querySelector("#occupationDropdown")
     .addEventListener("change", (event) => {
       console.log("dropdown worked");
-      filterByDropdown(characters);
+      // filterByDropdown(characters);
+      combinedFilters(characters);
     });
 
   let occupation = "";
@@ -226,14 +228,14 @@ function createCheckbox(event) {
 const filterByCheckbox = (characters) => {
   // console.log("its checked");
 
-  const checkboxValue = document.querySelectorAll(".formCheckInput");
+  const checkboxValue = document.querySelectorAll(".formCheckInput"); 
   // console.log("checkboxValue >>", checkboxValue);
   const checkedCheckboxes = [];
   for (let i = 0; i < checkboxValue.length; i++) {
     if (checkboxValue[i].checked === true) {
       checkedCheckboxes.push(checkboxValue[i].value);
     }
-    console.log("checkedCheckboxes :>> ", checkedCheckboxes.length);
+    // console.log("checkedCheckboxes :>> ", checkedCheckboxes.length);
   }
 
   const checkedExperience = characters.filter((characters) => {
@@ -242,9 +244,31 @@ const filterByCheckbox = (characters) => {
       checkedCheckboxes.length == 0
     );
   });
-  console.log("checkedExperience", checkedExperience);
+  // console.log("checkedExperience", checkedExperience);
   createCards(checkedExperience);
 };
+//#endregion
+
+
+//#region COMBINED FILTERS
+const combinedFilters = (characters) => {
+  const dropDrownValue = document.querySelector("#occupationDropdown").value;
+  dropDrownValue;
+
+  const checkboxValue = document.querySelectorAll(".formCheckInput"); 
+  const checkedCheckboxes = [];
+  for (let i = 0; i < checkboxValue.length; i++) {
+    if (checkboxValue[i].checked === true) {
+      checkedCheckboxes.push(checkboxValue[i].value);
+    }
+  }
+
+  const filteredCharacters = characters.filter((characters) => {
+    return (characters.occupation.includes(dropDrownValue) || dropDrownValue === "all") && (checkedCheckboxes.includes(characters.status) ||
+    checkedCheckboxes.length == 0)
+  })
+  createCards(filteredCharacters);
+}
 //#endregion
 
 
@@ -280,6 +304,12 @@ function showModal(character) {
   modalTitle.innerText = character.name;
 
   let modalBody = document.querySelector(".modal-body");
+  modalBody.innerText = "User rating: " + character.appearance;
+
+  let textModalBody = document.createElement("p");
+  textModalBody.innerText = "Working since: " + character.birthday;
+
+  modalBody.appendChild(textModalBody);
 }
 // console.log("showModal", showModal);
 //#endregion
