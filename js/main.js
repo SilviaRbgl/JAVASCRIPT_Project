@@ -4,7 +4,7 @@
 //     console.log("status >>>", data[i].status);
 // }
 
-// FETCHING THE DATA
+//#region > FETCHING THE DATA
 const getData = () => {
   fetch("https://www.breakingbadapi.com/api/characters")
     .then((response) => {
@@ -19,10 +19,11 @@ const getData = () => {
 };
 getData();
 
-// CONTROLLER FUNCTION
-function controller(result) {
-  //get the data
+//#endregion
 
+
+//#region > CONTROLLER FUNCTION
+function controller(result) {
   // create the cards
   createCards(result);
   // event listener show/hide
@@ -34,10 +35,12 @@ function controller(result) {
   // add events
   addEvents(result);
   //event more info
-addEventMoreInfo(result)
+  addEventMoreInfo(result);
 }
+//#endregion
 
-// FUNCTION FOR CREATING THE CARDS
+
+//#region > CREATE CARDS
 function createCards(characters) {
   let containerCards = document.getElementById("container-cards");
   containerCards.innerText = "";
@@ -60,26 +63,16 @@ function createCards(characters) {
     let divCardBody = document.createElement("div");
     divCardBody.classList.add("card-body");
 
-    /////////////////
-    ///// Create modal button
-    /////////////////
     let buttonCard = document.createElement("button");
     buttonCard.innerText = "More info";
     buttonCard.setAttribute("type", "button");
-    buttonCard.setAttribute("class", "btn btn-dark btn-show-more btn btn-primary");
+    buttonCard.setAttribute(
+      "class",
+      "btn btn-dark btn-show-more btn btn-primary"
+    );
     buttonCard.setAttribute("data-bs-toggle", "modal");
-    // buttonCard.setAttribute("id", "more-info-modal");
-    // buttonCard.setAttribute("data-bs-target", `#id${characters[i].char_id}`); // template literal
     buttonCard.setAttribute("data-bs-target", `#exampleModal`); // template literal
-    // buttonCard.setAttribute("data-bs-target", "#"+characters[i].char_id}");// same as line before
     buttonCard.setAttribute("id", i);
-    // console.log("id>", characters[i].char_id);
-
-    // modify Modal id 
-    // const modal = document.querySelector(".modal")
-    // modal.id= "id"+characters[i].char_id
-    /////////////////
-    /////////////////
 
     let h5 = document.createElement("h5");
     h5.classList.add("card-title");
@@ -98,10 +91,44 @@ function createCards(characters) {
     divCardBody.appendChild(buttonCard);
   }
 }
+//#endregion
 
 
+//#region > EVENT LISTENERS
+const addEvents = (characters) => {
+  document
+    .querySelector("#experienceCheckbox")
+    .addEventListener("click", (event) => {
+      console.log("checkbox worked");
+      filterByCheckbox(characters);
+    });
 
-// EVENT LISTENER FOR SHOW/HIDE FILTERS
+  document
+    .querySelector("#occupationDropdown")
+    .addEventListener("change", (event) => {
+      console.log("dropdown worked");
+      filterByDropdown(characters);
+    });
+
+  let occupation = "";
+  document.getElementById("searchInput").addEventListener("input", (event) => {
+    occupation = event.target.value;
+    console.log("occupation :>> ", occupation);
+    filterBySearchBar(characters, occupation);
+  });
+
+  document
+    .querySelector("#searchInput")
+    .addEventListener("keydown", (event) => {
+      console.log("searchBar worked");
+      console.log("esto es lo que mando al filter by occupation", occupation);
+      filterBySearchBar(characters, occupation);
+    });
+};
+//#endregion
+
+
+//#region > EVENT LISTENER FOR SHOW/HIDE FILTERS
 function addEventShowHide() {
   let btnShowFilters = document.getElementById("btn-show-filters");
   btnShowFilters.addEventListener("click", showMore);
@@ -121,8 +148,10 @@ function showMore() {
     // console.log(showFilters.style.display);
   }
 }
+//#endregion
 
-// FUNCTION FOR GENERATE DROPDOWN FOR OCCUPATIONS
+
+//#region > DROPDOWN FOR OCCUPATIONS
 const createDropdown = (result) => {
   const dropdown = document.getElementById("occupationDropdown");
   let charactersOccupationsArrays = [];
@@ -149,9 +178,10 @@ const createDropdown = (result) => {
     dropdown.appendChild(option);
   });
 };
+//#endregion
 
 
-// FUNCTION FOR GENERATE FILTERS FOR OCCUPATIONS
+//#region > FILTERS FOR DROPDOWN
 const filterByDropdown = (characters) => {
   // console.log("dropdoweddddd");
   const dropDrownValue = document.querySelector("#occupationDropdown").value;
@@ -166,9 +196,10 @@ const filterByDropdown = (characters) => {
   // console.log("filteredOccupation", filteredOccupation);
   createCards(filteredOccupation);
 };
+//#endregion
 
 
-// FUNCTION FOR GENERATE CHECKBOXES FOR EXPERIENCE
+//#region > CHECKBOXES FOR EXPERIENCE
 const checkboxes = document.querySelectorAll(".form-check-input");
 // console.log("checkboxes :>> ", checkboxes);
 checkboxes.forEach((checkbox) => {
@@ -188,9 +219,10 @@ function createCheckbox(event) {
   );
   // console.log("checkboxesValues :>> ", checkboxesValues);
 }
+//#endregion
 
 
-// FUNCTION FOR GENERATE FILTERS FOR EXPERIENCE
+//#region > FILTERS FOR CHECKBOXES
 const filterByCheckbox = (characters) => {
   // console.log("its checked");
 
@@ -213,47 +245,10 @@ const filterByCheckbox = (characters) => {
   console.log("checkedExperience", checkedExperience);
   createCards(checkedExperience);
 };
+//#endregion
 
 
-
-
-// EVENT LISTENER
-const addEvents = (characters) => {
-  document
-    .querySelector("#experienceCheckbox")
-    .addEventListener("click", (event) => {
-      console.log("checkbox worked");
-      filterByCheckbox(characters);
-    });
-
-  document
-    .querySelector("#occupationDropdown")
-    .addEventListener("change", (event) => {
-      console.log("dropdown worked");
-      filterByDropdown(characters);
-    });
-
-  let occupation = "";
-  document
-    .getElementById("searchInput")
-    .addEventListener("input", (event) => {
-      occupation = event.target.value;
-      console.log("occupation :>> ", occupation);
-      filterBySearchBar(characters, occupation);
-    });
-
-  document
-    .querySelector("#searchInput")
-    .addEventListener("keydown", (event) => {
-      console.log("searchBar worked");
-      console.log("esto es lo que mando al filter by occupation", occupation);
-      filterBySearchBar(characters, occupation);
-    });
-  
-};
-
-
-// FUNCTION FOR GENERATE SEARCH BAR FOR OCCUPATION
+//#region > SEARCH BAR FOR OCCUPATION
 const filterBySearchBar = (characters, occupation) => {
   console.log("occupation inside filter :>> ", occupation);
   let filteredCharacters = characters.filter((character) => {
@@ -262,41 +257,34 @@ const filterBySearchBar = (characters, occupation) => {
   console.log("filteredCharacters :>> ", filteredCharacters);
   createCards(filteredCharacters);
 };
+//#endregion
 
 
+//#region > MODAL FOR MORE INFO
 
-// MORE INFO
-
-function addEventMoreInfo (characters) {
+function addEventMoreInfo(characters) {
   let btnMoreInfo = document.querySelectorAll(".btn-show-more");
   // console.log('btnMoreInfo :>> ', btnMoreInfo);
-btnMoreInfo.forEach((button) => {
-  button.addEventListener("click", (event)=> {
-    console.log('e.target.id :>> ', event.target.id);
-    showModal(characters[event.target.id])
-    })
-  
-})
-  
+  btnMoreInfo.forEach((button) => {
+    button.addEventListener("click", (event) => {
+      console.log("e.target.id :>> ", event.target.id);
+      showModal(characters[event.target.id]);
+    });
+  });
 }
 
+function showModal(character) {
+  console.log("character :>> ", character);
 
-function showModal (character) {
-  console.log('character :>> ', character);
-// let myModal = document.querySelector(".modal")
-// myModal.id = id
+  let modalTitle = document.querySelector(".modal-title");
+  modalTitle.innerText = character.name;
 
-  // let modalH1 = document.getElementById("modal-H1");
-  // modalH1.h1 = characters.name;
-
-  let modalBody = document.querySelector(".modal-body")
-  modalBody.innerText = character.name
-  
-  // let textModal = document.getElementById("modal-text");
-  // textModal.innerText = characters.occupation;
-  
+  let modalBody = document.querySelector(".modal-body");
 }
 // console.log("showModal", showModal);
+//#endregion
+
+
 
 
 
@@ -312,6 +300,3 @@ const imageError = (characters) => {
   }
   imageError();
 };
-
-
-
