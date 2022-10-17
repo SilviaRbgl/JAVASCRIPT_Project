@@ -33,8 +33,8 @@ function controller(result) {
   createCheckbox(result);
   // add events
   addEvents(result);
-  // images error
-  
+  //event more info
+addEventMoreInfo(result)
 }
 
 // FUNCTION FOR CREATING THE CARDS
@@ -60,12 +60,26 @@ function createCards(characters) {
     let divCardBody = document.createElement("div");
     divCardBody.classList.add("card-body");
 
+    /////////////////
+    ///// Create modal button
+    /////////////////
     let buttonCard = document.createElement("button");
     buttonCard.innerText = "More info";
     buttonCard.setAttribute("type", "button");
-    buttonCard.setAttribute("class", "btn btn-dark btn-show-more");
-    buttonCard.setAttribute("id", characters[i].char_id);
+    buttonCard.setAttribute("class", "btn btn-dark btn-show-more btn btn-primary");
+    buttonCard.setAttribute("data-bs-toggle", "modal");
+    // buttonCard.setAttribute("id", "more-info-modal");
+    // buttonCard.setAttribute("data-bs-target", `#id${characters[i].char_id}`); // template literal
+    buttonCard.setAttribute("data-bs-target", `#exampleModal`); // template literal
+    // buttonCard.setAttribute("data-bs-target", "#"+characters[i].char_id}");// same as line before
+    buttonCard.setAttribute("id", i);
     // console.log("id>", characters[i].char_id);
+
+    // modify Modal id 
+    // const modal = document.querySelector(".modal")
+    // modal.id= "id"+characters[i].char_id
+    /////////////////
+    /////////////////
 
     let h5 = document.createElement("h5");
     h5.classList.add("card-title");
@@ -253,40 +267,36 @@ const filterBySearchBar = (characters, occupation) => {
 
 // MORE INFO
 
-function addEventMoreInfo () {
-  let btnMoreInfo = document.getElementsByClassName("btn-show-more");
-  btnMoreInfo.addEventListener("click", (event) => {
-    btnMoreInfo = event.target.char_id;
-    console.log("moreInfo worked");
-  
-  const myModal = document.getElementById('myModal')
-  const myInput = document.getElementById('myInput')
-    
-  myModal.addEventListener('shown.bs.modal', () => {
-    myInput.focus()
+function addEventMoreInfo (characters) {
+  let btnMoreInfo = document.querySelectorAll(".btn-show-more");
+  // console.log('btnMoreInfo :>> ', btnMoreInfo);
+btnMoreInfo.forEach((button) => {
+  button.addEventListener("click", (event)=> {
+    console.log('e.target.id :>> ', event.target.id);
+    showModal(characters[event.target.id])
     })
-  });
-}
-
-
-function showModal (characters) {
   
-  let modalH1 = document.getElementById("modal-H1");
-  modalH1.h1 = characters.name;
-  
-  let textModal = document.getElementById("modal-text");
-  textModal.innerText = characters.occupation;
+})
   
 }
-console.log("showModal", showModal);
 
-/// MODAL (BOOTSTRAP)
-// const myModal = document.getElementById('myModal')
-// const myInput = document.getElementById('myInput')
 
-// myModal.addEventListener('shown.bs.modal', () => {
-//   myInput.focus()
-// })
+function showModal (character) {
+  console.log('character :>> ', character);
+// let myModal = document.querySelector(".modal")
+// myModal.id = id
+
+  // let modalH1 = document.getElementById("modal-H1");
+  // modalH1.h1 = characters.name;
+
+  let modalBody = document.querySelector(".modal-body")
+  modalBody.innerText = character.name
+  
+  // let textModal = document.getElementById("modal-text");
+  // textModal.innerText = characters.occupation;
+  
+}
+// console.log("showModal", showModal);
 
 
 
