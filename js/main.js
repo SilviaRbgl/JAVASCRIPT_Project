@@ -21,7 +21,6 @@ getData();
 
 //#endregion
 
-
 //#region > CONTROLLER FUNCTION
 function controller(result) {
   // create the cards
@@ -36,9 +35,10 @@ function controller(result) {
   addEvents(result);
   //event more info
   addEventMoreInfo(result);
+  //image error
+  // imageError(result);
 }
 //#endregion
-
 
 //#region > CREATE CARDS
 function createCards(characters) {
@@ -93,7 +93,6 @@ function createCards(characters) {
 }
 //#endregion
 
-
 //#region > EVENT LISTENERS
 const addEvents = (characters) => {
   document
@@ -113,22 +112,39 @@ const addEvents = (characters) => {
     });
 
   let occupation = "";
-  document.getElementById("searchInput").addEventListener("input", (event) => {
+  document
+    .getElementById("searchInput")
+    .addEventListener("input", (event) => {
     occupation = event.target.value;
     console.log("occupation :>> ", occupation);
-    filterBySearchBar(characters, occupation);
+    filterByOccupationSearchBar(characters, occupation);
   });
 
   document
     .querySelector("#searchInput")
-    .addEventListener("keydown", (event) => {
-      console.log("searchBar worked");
-      console.log("esto es lo que mando al filter by occupation", occupation);
-      filterBySearchBar(characters, occupation);
+    .addEventListener("input", (event) => {
+    // console.log("searchBar worked");
+    // console.log("esto es lo que mando al filter by occupation", occupation);
+    filterByOccupationSearchBar(characters, occupation);
     });
+  
+  let name = "";
+  document
+    .querySelector("#searchInput")
+    .addEventListener("input", (event) => {
+      name = event.target.value;
+      filterByNameSearchBar(name);
+    })
+  
+  document
+    .querySelector("#searchButton")
+    .addEventListener("click", (event) => {
+      console.log("search btn worked");
+    })
+  
+
 };
 //#endregion
-
 
 //#region > EVENT LISTENER FOR SHOW/HIDE FILTERS
 function addEventShowHide() {
@@ -153,6 +169,7 @@ function showMore() {
 //#endregion
 
 
+
 //#region > DROPDOWN FOR OCCUPATIONS
 const createDropdown = (result) => {
   const dropdown = document.getElementById("occupationDropdown");
@@ -170,7 +187,7 @@ const createDropdown = (result) => {
   }
 
   const uniqueOccupations = [...new Set(occupationsArray)];
-  // console.log("unique >>>", uniqueOccupations);
+  // console.log("unique >>>", uniqueOccupations.sort());
   uniqueOccupations.map((occupation) => {
     // console.log('occupation :>> ', occupation);
     let option = document.createElement("option");
@@ -181,7 +198,6 @@ const createDropdown = (result) => {
   });
 };
 //#endregion
-
 
 //#region > FILTERS FOR DROPDOWN
 const filterByDropdown = (characters) => {
@@ -199,7 +215,6 @@ const filterByDropdown = (characters) => {
   createCards(filteredOccupation);
 };
 //#endregion
-
 
 //#region > CHECKBOXES FOR EXPERIENCE
 const checkboxes = document.querySelectorAll(".form-check-input");
@@ -223,12 +238,11 @@ function createCheckbox(event) {
 }
 //#endregion
 
-
 //#region > FILTERS FOR CHECKBOXES
 const filterByCheckbox = (characters) => {
   // console.log("its checked");
 
-  const checkboxValue = document.querySelectorAll(".formCheckInput"); 
+  const checkboxValue = document.querySelectorAll(".formCheckInput");
   // console.log("checkboxValue >>", checkboxValue);
   const checkedCheckboxes = [];
   for (let i = 0; i < checkboxValue.length; i++) {
@@ -249,13 +263,12 @@ const filterByCheckbox = (characters) => {
 };
 //#endregion
 
-
 //#region COMBINED FILTERS
 const combinedFilters = (characters) => {
   const dropDrownValue = document.querySelector("#occupationDropdown").value;
   dropDrownValue;
 
-  const checkboxValue = document.querySelectorAll(".formCheckInput"); 
+  const checkboxValue = document.querySelectorAll(".formCheckInput");
   const checkedCheckboxes = [];
   for (let i = 0; i < checkboxValue.length; i++) {
     if (checkboxValue[i].checked === true) {
@@ -264,25 +277,58 @@ const combinedFilters = (characters) => {
   }
 
   const filteredCharacters = characters.filter((characters) => {
-    return (characters.occupation.includes(dropDrownValue) || dropDrownValue === "all") && (checkedCheckboxes.includes(characters.status) ||
-    checkedCheckboxes.length == 0)
-  })
-  createCards(filteredCharacters);
-}
-//#endregion
-
-
-//#region > SEARCH BAR FOR OCCUPATION
-const filterBySearchBar = (characters, occupation) => {
-  console.log("occupation inside filter :>> ", occupation);
-  let filteredCharacters = characters.filter((character) => {
-    return character.occupation.includes(occupation);
+    return (
+      (characters.occupation.includes(dropDrownValue) ||
+        dropDrownValue === "all") &&
+      (checkedCheckboxes.includes(characters.status) ||
+        checkedCheckboxes.length == 0)
+    );
   });
-  console.log("filteredCharacters :>> ", filteredCharacters);
   createCards(filteredCharacters);
 };
 //#endregion
 
+
+
+//#region > SEARCH BAR FOR OCCUPATION
+const filterByOccupationSearchBar = (characters, occupation) => {
+  // console.log("occupation inside filter :>> ", occupation);
+
+  let filteredOccupation = characters.filter((character) => {
+    // console.log('character.occupation :>> ', character.occupation);
+    //store inside a new array the occupations set to lowecase
+    const occupationsArrayLoweCase = character.occupation.map((element) => {
+      console.log("element.toLowerCase() :>> ", element.toLowerCase());
+      return element.toLowerCase();
+    });
+    // we create a new array that contains the joined array...so it behaves as a single word
+    // console.log('occupationsArrayLoweCase :>> ', occupationsArrayLoweCase.join(""))
+    const joinedOccupationsArrayLoweCase = occupationsArrayLoweCase.join("");
+    return joinedOccupationsArrayLoweCase.includes(occupation.toLowerCase());
+  });
+  console.log("filteredCharacters :>> ", filteredOccupation);
+  createCards(filteredOccupation);
+};
+
+const filterByNameSearchBar = (name) => {
+  let url = `https://www.breakingbadapi.com/api/characters?name=${name}`;
+
+  fetch(url)
+    .then((response) => response.json())
+    .then((result) => {
+      console.log("result", result);
+      // error handling
+      if(result.length === 0){
+        createNotFoundImage()
+      }
+      createCards(result);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+};
+
+//#endregion
 
 //#region > MODAL FOR MORE INFO
 
@@ -304,29 +350,37 @@ function showModal(character) {
   modalTitle.innerText = character.name;
 
   let modalBody = document.querySelector(".modal-body");
-  modalBody.innerText = "User rating: " + character.appearance;
+  modalBody.innerText = "Occupation: " + character.occupation;
 
-  let textModalBody = document.createElement("p");
-  textModalBody.innerText = "Working since: " + character.birthday;
+  let textModalBody1 = document.createElement("p");
+  textModalBody1.innerText = "Working since: " + character.birthday;
 
-  modalBody.appendChild(textModalBody);
+  let textModalBody2 = document.createElement("p");
+  textModalBody2.innerText = "Fiscal name: " + character.portrayed;
+
+  let textModalBody3 = document.createElement("p");
+  textModalBody3.innerText = "User rating: " + character.appearance;
+
+  textModalBody2.appendChild(textModalBody3);
+  textModalBody1.appendChild(textModalBody2);
+  modalBody.appendChild(textModalBody1);
 }
 // console.log("showModal", showModal);
 //#endregion
 
+// CLEAN DOM
+//  const cleanDom = () => {
 
-
-
+//  }
 
 // FUNCTION TO REPLACE A FOTO MISSING
-const imageError = (characters) => {
-  let images = (characters, img);
+// const imageError = (characters) => {
+//   let images = (characters, img);
 
-  for (let i = 0; i < characters.length; i++) {
-    images.addEventListener("error", function () {
-      images.src =
-        "https://t4.ftcdn.net/jpg/03/46/93/61/360_F_346936114_RaxE6OQogebgAWTalE1myseY1Hbb5qPM.jpg";
-    });
-  }
-  imageError();
-};
+//   for (let i = 0; i < characters.length; i++) {
+//     images.addEventListener("error", function () {
+//       images.src =
+//         "https://t4.ftcdn.net/jpg/03/46/93/61/360_F_346936114_RaxE6OQogebgAWTalE1myseY1Hbb5qPM.jpg";
+//     });
+//   }
+// };
