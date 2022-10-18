@@ -14,13 +14,27 @@ body {
     align-items: center;
     justify-content: space-around;
     padding: 60px;
+    margin-right: 0px;
+    margin-left: 0px;
 }
 
 .h1-img-main img {
     display: flex;
     align-self: flex-end;
     height: auto;
-    max-width: 500px;
+    max-width: auto;
+    margin-right: 0px;
+}
+
+.h1-img-main p {
+    display: flex;
+    align-self: flex-end;
+}
+
+.container-fluid {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 }
 
 .container-search{
@@ -47,10 +61,6 @@ body {
     display: flex;
     justify-content: space-evenly;
 }
-
-/* .container{
-    margin: 0px;
-} */
 
 .container p {
     font-size: 1rem;

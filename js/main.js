@@ -18,7 +18,12 @@ const getData = () => {
     .catch((error) => console.log(error));
 };
 getData();
-
+// const person = {
+//   name: "sadasd",
+//   edad:2123
+// }
+// localStorage.setItem("character", "walter");
+// localStorage.setItem("character", JSON.stringify(person));
 //#endregion
 
 //#region > CONTROLLER FUNCTION
@@ -113,7 +118,7 @@ const addEvents = (characters) => {
 
   let occupation = "";
   document
-    .getElementById("searchInput")
+    .getElementById("searchInputOccupation")
     .addEventListener("input", (event) => {
     occupation = event.target.value;
     console.log("occupation :>> ", occupation);
@@ -121,27 +126,21 @@ const addEvents = (characters) => {
   });
 
   document
-    .querySelector("#searchInput")
+    .querySelector("#searchInputOccupation")
     .addEventListener("input", (event) => {
     // console.log("searchBar worked");
     // console.log("esto es lo que mando al filter by occupation", occupation);
     filterByOccupationSearchBar(characters, occupation);
     });
   
-  let name = "";
   document
-    .querySelector("#searchInput")
-    .addEventListener("input", (event) => {
-      name = event.target.value;
+    .querySelector("#searchButtonName")
+    .addEventListener("click", (event) => {
+      let name = document.querySelector("#searchInputName").value
+      // console.log("value", value);
+      // name = event.target.value;
       filterByNameSearchBar(name);
     })
-  
-  document
-    .querySelector("#searchButton")
-    .addEventListener("click", (event) => {
-      console.log("search btn worked");
-    })
-  
 
 };
 //#endregion
@@ -167,7 +166,6 @@ function showMore() {
   }
 }
 //#endregion
-
 
 
 //#region > DROPDOWN FOR OCCUPATIONS
@@ -298,7 +296,7 @@ const filterByOccupationSearchBar = (characters, occupation) => {
     // console.log('character.occupation :>> ', character.occupation);
     //store inside a new array the occupations set to lowecase
     const occupationsArrayLoweCase = character.occupation.map((element) => {
-      console.log("element.toLowerCase() :>> ", element.toLowerCase());
+      // console.log("element.toLowerCase() :>> ", element.toLowerCase());
       return element.toLowerCase();
     });
     // we create a new array that contains the joined array...so it behaves as a single word
@@ -306,22 +304,23 @@ const filterByOccupationSearchBar = (characters, occupation) => {
     const joinedOccupationsArrayLoweCase = occupationsArrayLoweCase.join("");
     return joinedOccupationsArrayLoweCase.includes(occupation.toLowerCase());
   });
-  console.log("filteredCharacters :>> ", filteredOccupation);
+  // console.log("filteredCharacters :>> ", filteredOccupation);
   createCards(filteredOccupation);
 };
 
 const filterByNameSearchBar = (name) => {
+  console.log('name :>> ', name);
   let url = `https://www.breakingbadapi.com/api/characters?name=${name}`;
 
   fetch(url)
     .then((response) => response.json())
-    .then((result) => {
-      console.log("result", result);
+    .then((newResult) => {
+      console.log("result live search", newResult);
       // error handling
-      if(result.length === 0){
-        createNotFoundImage()
+      if(newResult.length === 0){
+        createNotFoundImage() 
       }
-      createCards(result);
+      controller(newResult);
     })
     .catch((error) => {
       console.log(error);
@@ -329,6 +328,15 @@ const filterByNameSearchBar = (name) => {
 };
 
 //#endregion
+
+
+// CREATE IMAGE NOT FOUND
+const createNotFoundImage = () => {
+  let imgNotFound = document.querySelector("#img-not-found");
+  imgNotFound.style.display = "block"
+  }
+
+
 
 //#region > MODAL FOR MORE INFO
 
@@ -368,10 +376,16 @@ function showModal(character) {
 // console.log("showModal", showModal);
 //#endregion
 
+
 // CLEAN DOM
 //  const cleanDom = () => {
 
 //  }
+
+
+
+
+
 
 // FUNCTION TO REPLACE A FOTO MISSING
 // const imageError = (characters) => {

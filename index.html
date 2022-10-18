@@ -49,36 +49,57 @@
 
     <main>
       <div class="h1-img-main">
-        <div>
-          <h1>Hire an expert!</h1>
-          <p>
-            Are you looking for the perfect expert to take care of your project?
-            If so, this is your plattform! Lorem ipsum dolor sit amet,
-            consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-            labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-            exercitation ullamco laboris nisi ut aliquip ex ea commodo
-            consequat.
-          </p>
+        <div class="row">
+          <div class="col-sm">
+            <h1>Hire an expert!</h1>
+            <p>
+              Are you looking for the perfect expert to take care of your
+              project? If so, this is your plattform! Lorem ipsum dolor sit
+              amet, consectetur adipiscing elit, sed do eiusmod tempor
+              incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+              veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
+              ex ea commodo consequat.
+            </p>
+          </div>
+          <div class="col-sm">
+            <img
+              src="./images/work-in-team.png"
+              class="img-fluid"
+              alt="illustration of people working in team"
+            />
+          </div>
         </div>
-        <img
-          src="./images/work-in-team.png"
-          class="img-fluid"
-          alt="illustration of people working in team"
-        />
       </div>
 
       <div class="container-search" id="container-search">
         <div class="container-fluid">
-          <div class="d-flex" id="searchBar">
+          <div class="d-flex" id="searchBarOccupation">
             <input
               type="text"
               class="form-control me-2"
-              placeholder="e.g. 'Meth Dealer'"
+              placeholder="Search by occupation: e.g. 'Meth Dealer'"
               aria-label="Search"
-              id="searchInput"
+              id="searchInputOccupation"
               value=""
             />
-            <button id="searchButton" class="btn btn-dark" type="submit">
+            <button
+              id="searchButtonOccupation"
+              class="btn btn-dark"
+              type="submit"
+            >
+              Search
+            </button>
+          </div>
+          <div class="d-flex" id="searchBarName">
+            <input
+              type="text"
+              class="form-control me-2"
+              placeholder="Search by name: e.g. 'Jesse Pinkman'"
+              aria-label="Search"
+              id="searchInputName"
+              value=""
+            />
+            <button id="searchButtonName" class="btn btn-dark" type="submit">
               Search
             </button>
           </div>
@@ -143,6 +164,16 @@
         <div class="row" id="container-cards"></div>
       </div>
 
+      <div>
+        <img
+          id="img-not-found"
+          src="./images/image-not-found.png"
+          alt="404 error image"
+          style="display: none"
+          width="20rem"
+        />
+      </div>
+
       <div
         class="modal fade"
         id="exampleModal"
@@ -175,26 +206,23 @@
               >
                 Close
               </button>
-              <button type="button" class="btn btn-primary">
-                Hire
-              </button>
+              <button type="button" class="btn btn-primary">Hire</button>
             </div>
           </div>
         </div>
       </div>
-    
-    <footer>
-      <img
-      src="./images/logo.png"
-      alt="Logo"
-      width="32"
-      height="26"
-      class="d-inline-block align-text-top"
-    />
-      <a class="navbar-brand" href="./index.html">experts(!)</a>
-      <p>© 2022 - Designed by Silvia Rbgl</p>
-    </footer>
 
+      <footer>
+        <img
+          src="./images/logo.png"
+          alt="Logo"
+          width="32"
+          height="26"
+          class="d-inline-block align-text-top"
+        />
+        <a class="navbar-brand" href="./index.html">experts(!)</a>
+        <p>© 2022 - Designed by Silvia Rbgl</p>
+      </footer>
     </main>
 
     <script
