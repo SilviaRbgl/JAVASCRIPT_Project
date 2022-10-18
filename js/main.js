@@ -18,12 +18,6 @@ const getData = () => {
     .catch((error) => console.log(error));
 };
 getData();
-// const person = {
-//   name: "sadasd",
-//   edad:2123
-// }
-// localStorage.setItem("character", "walter");
-// localStorage.setItem("character", JSON.stringify(person));
 //#endregion
 
 //#region > CONTROLLER FUNCTION
@@ -31,7 +25,7 @@ function controller(result) {
   // create the cards
   createCards(result);
   // event listener show/hide
-  addEventShowHide();
+  // addEventShowHide();
   // dropdown occupations
   createDropdown(result);
   // checkbox experience
@@ -40,8 +34,7 @@ function controller(result) {
   addEvents(result);
   //event more info
   addEventMoreInfo(result);
-  //image error
-  // imageError(result);
+
 }
 //#endregion
 
@@ -141,17 +134,24 @@ const addEvents = (characters) => {
       // name = event.target.value;
       filterByNameSearchBar(name);
     })
+  
+  document
+    .getElementById("btn-show-filters")
+    .addEventListener("click", (event) => {
+      showMore(characters);
+    })
+  
 
 };
 //#endregion
 
 //#region > EVENT LISTENER FOR SHOW/HIDE FILTERS
-function addEventShowHide() {
-  let btnShowFilters = document.getElementById("btn-show-filters");
-  btnShowFilters.addEventListener("click", showMore);
-}
+// function addEventShowHide() {
+//   let btnShowFilters = document.getElementById("btn-show-filters");
+//   btnShowFilters.addEventListener("click", showMore);
+// }
 
-function showMore() {
+const showMore = (characters) => {
   let showFilters = document.getElementById("filters");
   let btnShowFilters = document.getElementById("btn-show-filters");
   // console.log(showFilters.style.display);
@@ -166,7 +166,6 @@ function showMore() {
   }
 }
 //#endregion
-
 
 //#region > DROPDOWN FOR OCCUPATIONS
 const createDropdown = (result) => {
@@ -186,7 +185,7 @@ const createDropdown = (result) => {
 
   const uniqueOccupations = [...new Set(occupationsArray)];
   // console.log("unique >>>", uniqueOccupations.sort());
-  uniqueOccupations.map((occupation) => {
+  uniqueOccupations.sort().map((occupation) => {
     // console.log('occupation :>> ', occupation);
     let option = document.createElement("option");
     option.innerText = occupation;
@@ -287,7 +286,6 @@ const combinedFilters = (characters) => {
 //#endregion
 
 
-
 //#region > SEARCH BAR FOR OCCUPATION
 const filterByOccupationSearchBar = (characters, occupation) => {
   // console.log("occupation inside filter :>> ", occupation);
@@ -330,12 +328,12 @@ const filterByNameSearchBar = (name) => {
 //#endregion
 
 
-// CREATE IMAGE NOT FOUND
+//#region CREATE IMAGE NOT FOUND
 const createNotFoundImage = () => {
   let imgNotFound = document.querySelector("#img-not-found");
   imgNotFound.style.display = "block"
-  }
-
+};
+//#endregion
 
 
 //#region > MODAL FOR MORE INFO
@@ -375,12 +373,6 @@ function showModal(character) {
 }
 // console.log("showModal", showModal);
 //#endregion
-
-
-// CLEAN DOM
-//  const cleanDom = () => {
-
-//  }
 
 
 
