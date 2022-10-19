@@ -32,7 +32,6 @@ function controller(result) {
   addEvents(result);
   //event more info
   addEventMoreInfo(result);
-
 }
 //#endregion
 
@@ -111,40 +110,51 @@ const addEvents = (characters) => {
   document
     .getElementById("searchInputOccupation")
     .addEventListener("input", (event) => {
-    occupation = event.target.value;
-    console.log("occupation :>> ", occupation);
-    filterByOccupationSearchBar(characters, occupation);
-  });
+      occupation = event.target.value;
+      console.log("occupation :>> ", occupation);
+      filterByOccupationSearchBar(characters, occupation);
+    });
 
   document
     .querySelector("#searchInputOccupation")
     .addEventListener("input", (event) => {
-    // console.log("searchBar worked");
-    // console.log("esto es lo que mando al filter by occupation", occupation);
-    filterByOccupationSearchBar(characters, occupation);
+      // console.log("searchBar worked");
+      // console.log("esto es lo que mando al filter by occupation", occupation);
+      filterByOccupationSearchBar(characters, occupation);
     });
-  
+
   document
     .querySelector("#searchButtonName")
     .addEventListener("click", (event) => {
-     console.log(event);
-      let name = document.querySelector("#searchInputName").value
+      console.log(event);
+      let name = document.querySelector("#searchInputName").value;
       // console.log("value", value);
       // name = event.target.value;
       console.log("event added to search button");
       filterByNameSearchBar(name);
-    })
-  
-  
+    });
+
   document
     .getElementById("btn-show-filters")
     .addEventListener("click", (event) => {
       showMore(characters);
-    })
+    });
   
-
+  document
+    .getElementById("btn-hire")
+    .addEventListener("click", (event) => {
+      console.log("button hire works");
+      // alert("congratulations! you hired ...")
+      // hireButton();
+    })
 };
 //#endregion
+
+//HIRE BUTTON
+// const hireButton = (characters) => {  
+//     const hireHtml = document.get
+// };
+
 
 //#region > SHOW/HIDE FILTERS BUTTON
 
@@ -161,7 +171,7 @@ const showMore = (characters) => {
     btnShowFilters.innerHTML = "Show filters";
     // console.log(showFilters.style.display);
   }
-}
+};
 //#endregion
 
 //#region > DROPDOWN FOR OCCUPATIONS
@@ -279,12 +289,13 @@ const combinedFilters = (characters) => {
         checkedCheckboxes.length == 0)
     );
   });
+
+  createNotFoundImage();
   createCards(filteredCharacters);
   addEventMoreInfo(filteredCharacters);
   // controller(filteredCharacters);
 };
 //#endregion
-
 
 //#region > SEARCH BAR FOR OCCUPATION
 const filterByOccupationSearchBar = (characters, occupation) => {
@@ -304,28 +315,25 @@ const filterByOccupationSearchBar = (characters, occupation) => {
   });
   console.log("filteredCharacters :>> ", filteredOccupation);
 
-  if (filteredOccupation.length === 0) {
-    createNotFoundImage()
-  };
+  if (filteredOccupation.length === 0)  {
+    createNotFoundImage();
+  }
 
   createCards(filteredOccupation);
   addEventMoreInfo(filteredOccupation);
-  
   // controller(filteredOccupation);
-  
 };
-  
 
 const filterByNameSearchBar = (name) => {
-  console.log('name :>> ', name);
-   
+  console.log("name :>> ", name);
+
   // if (name === "") {
   //   alert("please type a name")
   // }
   // let fetchController = new AbortController();
   // const signal = fetchController.signal;
   let url = `https://www.breakingbadapi.com/api/characters?name=${name}`;
-// setTimeout(() => fetchController.abort(), 1000);
+  // setTimeout(() => fetchController.abort(), 1000);
   fetch(url)
     .then((response) => response.json())
     .then((newResult) => {
@@ -333,30 +341,25 @@ const filterByNameSearchBar = (name) => {
       console.log("result live search", newResult);
       // error handling
       if (newResult.length === 0) {
-    
-        createNotFoundImage() 
+        createNotFoundImage();
       }
 
       // createCards(newResult);
       controller(newResult);
-      
     })
     .catch((error) => {
       console.log(error);
     });
-  
 };
 
 //#endregion
-
 
 //#region CREATE IMAGE NOT FOUND
 const createNotFoundImage = () => {
   let imgNotFound = document.querySelector("#img-not-found");
-  imgNotFound.style.display = "block"
+  imgNotFound.style.display = "block";
 };
 //#endregion
-
 
 //#region > MODAL FOR MORE INFO
 
@@ -398,23 +401,3 @@ function showModal(character) {
 
 
 
-
-
-
-
-
-
-
-
-
-// FUNCTION TO REPLACE A FOTO MISSING
-// const imageError = (characters) => {
-//   let images = (characters, img);
-
-//   for (let i = 0; i < characters.length; i++) {
-//     images.addEventListener("error", function () {
-//       images.src =
-//         "https://t4.ftcdn.net/jpg/03/46/93/61/360_F_346936114_RaxE6OQogebgAWTalE1myseY1Hbb5qPM.jpg";
-//     });
-//   }
-// };
