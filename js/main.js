@@ -24,8 +24,6 @@ getData();
 function controller(result) {
   // create the cards
   createCards(result);
-  // event listener show/hide
-  // addEventShowHide();
   // dropdown occupations
   createDropdown(result);
   // checkbox experience
@@ -129,11 +127,14 @@ const addEvents = (characters) => {
   document
     .querySelector("#searchButtonName")
     .addEventListener("click", (event) => {
+     console.log(event);
       let name = document.querySelector("#searchInputName").value
       // console.log("value", value);
       // name = event.target.value;
+      console.log("event added to search button");
       filterByNameSearchBar(name);
     })
+  
   
   document
     .getElementById("btn-show-filters")
@@ -145,11 +146,7 @@ const addEvents = (characters) => {
 };
 //#endregion
 
-//#region > EVENT LISTENER FOR SHOW/HIDE FILTERS
-// function addEventShowHide() {
-//   let btnShowFilters = document.getElementById("btn-show-filters");
-//   btnShowFilters.addEventListener("click", showMore);
-// }
+//#region > SHOW/HIDE FILTERS BUTTON
 
 const showMore = (characters) => {
   let showFilters = document.getElementById("filters");
@@ -197,20 +194,21 @@ const createDropdown = (result) => {
 //#endregion
 
 //#region > FILTERS FOR DROPDOWN
-const filterByDropdown = (characters) => {
-  // console.log("dropdoweddddd");
-  const dropDrownValue = document.querySelector("#occupationDropdown").value;
-  dropDrownValue;
-  // console.log("dropDrownValue", dropDrownValue);
+// const filterByDropdown = (characters) => {
+//   // console.log("dropdoweddddd");
+//   const dropDrownValue = document.querySelector("#occupationDropdown").value;
+//   dropDrownValue;
+//   // console.log("dropDrownValue", dropDrownValue);
 
-  const filteredOccupation = characters.filter((characters) => {
-    return (
-      characters.occupation.includes(dropDrownValue) || dropDrownValue === "all"
-    );
-  });
-  // console.log("filteredOccupation", filteredOccupation);
-  createCards(filteredOccupation);
-};
+//   const filteredOccupation = characters.filter((characters) => {
+//     return (
+//       characters.occupation.includes(dropDrownValue) || dropDrownValue === "all"
+//     );
+//   });
+//   // console.log("filteredOccupation", filteredOccupation);
+//   // createCards(filteredOccupation);
+//   createCards(filteredOccupation);
+// };
 //#endregion
 
 //#region > CHECKBOXES FOR EXPERIENCE
@@ -236,28 +234,28 @@ function createCheckbox(event) {
 //#endregion
 
 //#region > FILTERS FOR CHECKBOXES
-const filterByCheckbox = (characters) => {
-  // console.log("its checked");
+// const filterByCheckbox = (characters) => {
+//   // console.log("its checked");
 
-  const checkboxValue = document.querySelectorAll(".formCheckInput");
-  // console.log("checkboxValue >>", checkboxValue);
-  const checkedCheckboxes = [];
-  for (let i = 0; i < checkboxValue.length; i++) {
-    if (checkboxValue[i].checked === true) {
-      checkedCheckboxes.push(checkboxValue[i].value);
-    }
-    // console.log("checkedCheckboxes :>> ", checkedCheckboxes.length);
-  }
+//   const checkboxValue = document.querySelectorAll(".formCheckInput");
+//   // console.log("checkboxValue >>", checkboxValue);
+//   const checkedCheckboxes = [];
+//   for (let i = 0; i < checkboxValue.length; i++) {
+//     if (checkboxValue[i].checked === true) {
+//       checkedCheckboxes.push(checkboxValue[i].value);
+//     }
+//     // console.log("checkedCheckboxes :>> ", checkedCheckboxes.length);
+//   }
 
-  const checkedExperience = characters.filter((characters) => {
-    return (
-      checkedCheckboxes.includes(characters.status) ||
-      checkedCheckboxes.length == 0
-    );
-  });
-  // console.log("checkedExperience", checkedExperience);
-  createCards(checkedExperience);
-};
+//   const checkedExperience = characters.filter((characters) => {
+//     return (
+//       checkedCheckboxes.includes(characters.status) ||
+//       checkedCheckboxes.length == 0
+//     );
+//   });
+//   // console.log("checkedExperience", checkedExperience);
+//   createCards(checkedExperience);
+// };
 //#endregion
 
 //#region COMBINED FILTERS
@@ -282,6 +280,8 @@ const combinedFilters = (characters) => {
     );
   });
   createCards(filteredCharacters);
+  addEventMoreInfo(filteredCharacters);
+  // controller(filteredCharacters);
 };
 //#endregion
 
@@ -302,27 +302,49 @@ const filterByOccupationSearchBar = (characters, occupation) => {
     const joinedOccupationsArrayLoweCase = occupationsArrayLoweCase.join("");
     return joinedOccupationsArrayLoweCase.includes(occupation.toLowerCase());
   });
-  // console.log("filteredCharacters :>> ", filteredOccupation);
+  console.log("filteredCharacters :>> ", filteredOccupation);
+
+  if (filteredOccupation.length === 0) {
+    createNotFoundImage()
+  };
+
   createCards(filteredOccupation);
+  addEventMoreInfo(filteredOccupation);
+  
+  // controller(filteredOccupation);
+  
 };
+  
 
 const filterByNameSearchBar = (name) => {
   console.log('name :>> ', name);
+   
+  // if (name === "") {
+  //   alert("please type a name")
+  // }
+  // let fetchController = new AbortController();
+  // const signal = fetchController.signal;
   let url = `https://www.breakingbadapi.com/api/characters?name=${name}`;
-
+// setTimeout(() => fetchController.abort(), 1000);
   fetch(url)
     .then((response) => response.json())
     .then((newResult) => {
+      // fetchController.abort()
       console.log("result live search", newResult);
       // error handling
-      if(newResult.length === 0){
+      if (newResult.length === 0) {
+    
         createNotFoundImage() 
       }
+
+      // createCards(newResult);
       controller(newResult);
+      
     })
     .catch((error) => {
       console.log(error);
     });
+  
 };
 
 //#endregion
@@ -373,6 +395,12 @@ function showModal(character) {
 }
 // console.log("showModal", showModal);
 //#endregion
+
+
+
+
+
+
 
 
 
