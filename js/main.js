@@ -4,6 +4,9 @@
 //     console.log("status >>>", data[i].status);
 // }
 
+// let fetchController = new AbortController();
+//   const signal = fetchController.signal;
+
 //#region > FETCHING THE DATA
 const getData = () => {
   fetch("https://www.breakingbadapi.com/api/characters")
@@ -37,6 +40,9 @@ function controller(result) {
 
 //#region > CREATE CARDS
 function createCards(characters) {
+  if (characters.length > 0) {
+    hideNotFoundImage();
+  }
   let containerCards = document.getElementById("container-cards");
   containerCards.innerText = "";
 
@@ -132,28 +138,25 @@ const addEvents = (characters) => {
       // name = event.target.value;
       console.log("event added to search button");
       filterByNameSearchBar(name);
-    });
-
+    },
+    { once: true }
+  );
+  
   document
     .getElementById("btn-show-filters")
     .addEventListener("click", (event) => {
       showMore(characters);
-    });
+    })
   
   document
     .getElementById("btn-hire")
     .addEventListener("click", (event) => {
-      console.log("button hire works");
-      // alert("congratulations! you hired ...")
-      // hireButton();
-    })
+    event.target.style.backgroundColor = "#C0B8D9";
+    event.target.innerText = "Hired!";
+  });
+
 };
 //#endregion
-
-//HIRE BUTTON
-// const hireButton = (characters) => {  
-//     const hireHtml = document.get
-// };
 
 
 //#region > SHOW/HIDE FILTERS BUTTON
@@ -290,7 +293,11 @@ const combinedFilters = (characters) => {
     );
   });
 
-  createNotFoundImage();
+  if (filteredCharacters.length === 0) {
+    createNotFoundImage();
+  }
+
+  // createNotFoundImage();
   createCards(filteredCharacters);
   addEventMoreInfo(filteredCharacters);
   // controller(filteredCharacters);
@@ -315,7 +322,7 @@ const filterByOccupationSearchBar = (characters, occupation) => {
   });
   console.log("filteredCharacters :>> ", filteredOccupation);
 
-  if (filteredOccupation.length === 0)  {
+  if (filteredOccupation.length === 0) {
     createNotFoundImage();
   }
 
@@ -359,6 +366,11 @@ const createNotFoundImage = () => {
   let imgNotFound = document.querySelector("#img-not-found");
   imgNotFound.style.display = "block";
 };
+
+const hideNotFoundImage = () => {
+  let imgNotFound = document.querySelector("#img-not-found");
+  imgNotFound.style.display = "none";
+};
 //#endregion
 
 //#region > MODAL FOR MORE INFO
@@ -398,6 +410,3 @@ function showModal(character) {
 }
 // console.log("showModal", showModal);
 //#endregion
-
-
-
