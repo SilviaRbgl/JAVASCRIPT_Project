@@ -1,5 +1,5 @@
 
-///// 1) FETCH THE DATA
+///// FETCH THE DATA
 const getData = () => {
   fetch("https://www.breakingbadapi.com/api/characters")
     .then((response) => {
@@ -30,7 +30,7 @@ function controller(result) {
 }
 
 
-///// 3) CREATE CARDS
+///// CREATE CARDS
 function createCards(characters) {
   if (characters.length > 0) {
     hideNotFoundImage();
@@ -83,7 +83,7 @@ function createCards(characters) {
 }
 
 
-///// 4) EVENT LISTENERS
+///// EVENT LISTENERS
 const addEvents = (characters) => {
   document
     .querySelector("#occupationDropdown")
@@ -138,12 +138,59 @@ const addEvents = (characters) => {
 };
 
 
-//#region > SHOW/HIDE FILTERS BUTTON
+///// SEARCH BAR
+//////// SEARCH BAR BY OCCUPATION
+const filterByOccupationSearchBar = (characters, occupation) => {
 
+  let filteredOccupation = characters.filter((character) => {
+    // console.log('character.occupation :>> ', character.occupation);
+    //store inside a new array the occupations set to lowecase
+    const occupationsArrayLoweCase = character.occupation.map((element) => {
+      // console.log("element.toLowerCase() :>> ", element.toLowerCase());
+      return element.toLowerCase();
+    });
+    // we create a new array that contains the joined array...so it behaves as a single word
+    // console.log('occupationsArrayLoweCase :>> ', occupationsArrayLoweCase.join(""))
+    const joinedOccupationsArrayLoweCase = occupationsArrayLoweCase.join("");
+    return joinedOccupationsArrayLoweCase.includes(occupation.toLowerCase());
+  });
+  console.log("filteredCharacters :>> ", filteredOccupation);
+
+  if (filteredOccupation.length === 0) {
+    createNotFoundImage();
+  }
+
+  createCards(filteredOccupation);
+  addEventMoreInfo(filteredOccupation);
+};
+
+//////// SEARCH BAR BY NAME
+const filterByNameSearchBar = (name) => {
+  console.log("name :>> ", name);
+
+  let url = `https://www.breakingbadapi.com/api/characters?name=${name}`;
+  fetch(url)
+    .then((response) => response.json())
+    .then((newResult) => {
+      // fetchController.abort()
+      console.log("result live search", newResult);
+      // error handling
+      if (newResult.length === 0) {
+        createNotFoundImage();
+      }
+
+      controller(newResult);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+};
+
+
+//////// SHOW/HIDE FILTERS BUTTON
 const showMore = (characters) => {
   let showFilters = document.getElementById("filters");
   let btnShowFilters = document.getElementById("btn-show-filters");
-  // console.log(showFilters.style.display);
 
   if (showFilters.style.display === "none") {
     btnShowFilters.innerHTML = "Hide filters";
@@ -151,12 +198,10 @@ const showMore = (characters) => {
   } else {
     showFilters.style.display = "none";
     btnShowFilters.innerHTML = "Show filters";
-    // console.log(showFilters.style.display);
   }
 };
-//#endregion
 
-//#region > DROPDOWN FOR OCCUPATIONS
+//////// DROPDOWN FOR OCCUPATIONS
 const createDropdown = (result) => {
   const dropdown = document.getElementById("occupationDropdown");
   let charactersOccupationsArrays = [];
@@ -183,12 +228,10 @@ const createDropdown = (result) => {
     dropdown.appendChild(option);
   });
 };
-//#endregion
 
 
-//#region > CHECKBOXES FOR EXPERIENCE
+//////// CHECKBOXES FOR EXPERIENCE
 const checkboxes = document.querySelectorAll(".form-check-input");
-// console.log("checkboxes :>> ", checkboxes);
 checkboxes.forEach((checkbox) => {
   checkbox.addEventListener("click", createCheckbox);
 });
@@ -206,10 +249,9 @@ function createCheckbox(event) {
   );
   // console.log("checkboxesValues :>> ", checkboxesValues);
 }
-//#endregion
 
 
-//#region COMBINED FILTERS
+///// COMBINE FILTERS (DROPDOWN and CHECKBOX)
 const combinedFilters = (characters) => {
   const dropDrownValue = document.querySelector("#occupationDropdown").value;
   dropDrownValue;
@@ -235,83 +277,26 @@ const combinedFilters = (characters) => {
     createNotFoundImage();
   }
 
-  // createNotFoundImage();
   createCards(filteredCharacters);
   addEventMoreInfo(filteredCharacters);
-  // controller(filteredCharacters);
-};
-//#endregion
-
-//#region > SEARCH BAR FOR OCCUPATION
-const filterByOccupationSearchBar = (characters, occupation) => {
-  // console.log("occupation inside filter :>> ", occupation);
-
-  let filteredOccupation = characters.filter((character) => {
-    // console.log('character.occupation :>> ', character.occupation);
-    //store inside a new array the occupations set to lowecase
-    const occupationsArrayLoweCase = character.occupation.map((element) => {
-      // console.log("element.toLowerCase() :>> ", element.toLowerCase());
-      return element.toLowerCase();
-    });
-    // we create a new array that contains the joined array...so it behaves as a single word
-    // console.log('occupationsArrayLoweCase :>> ', occupationsArrayLoweCase.join(""))
-    const joinedOccupationsArrayLoweCase = occupationsArrayLoweCase.join("");
-    return joinedOccupationsArrayLoweCase.includes(occupation.toLowerCase());
-  });
-  console.log("filteredCharacters :>> ", filteredOccupation);
-
-  if (filteredOccupation.length === 0) {
-    createNotFoundImage();
-  }
-
-  createCards(filteredOccupation);
-  addEventMoreInfo(filteredOccupation);
-  // controller(filteredOccupation);
 };
 
-const filterByNameSearchBar = (name) => {
-  console.log("name :>> ", name);
 
-  // if (name === "") {
-  //   alert("please type a name")
-  // }
-  // let fetchController = new AbortController();
-  // const signal = fetchController.signal;
-  let url = `https://www.breakingbadapi.com/api/characters?name=${name}`;
-  // setTimeout(() => fetchController.abort(), 1000);
-  fetch(url)
-    .then((response) => response.json())
-    .then((newResult) => {
-      // fetchController.abort()
-      console.log("result live search", newResult);
-      // error handling
-      if (newResult.length === 0) {
-        createNotFoundImage();
-      }
-
-      // createCards(newResult);
-      controller(newResult);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-};
-
-//#endregion
-
-//#region CREATE IMAGE NOT FOUND
+///// IMAGE FOR NOT FOUND
+//////// CREATE THE IMAGE
 const createNotFoundImage = () => {
   let imgNotFound = document.querySelector("#img-not-found");
   imgNotFound.style.display = "block";
 };
 
+//////// HIDE THE IMAGE
 const hideNotFoundImage = () => {
   let imgNotFound = document.querySelector("#img-not-found");
   imgNotFound.style.display = "none";
 };
-//#endregion
 
-//#region > MODAL FOR MORE INFO
+
+///// MODAL FOR MORE INFO
 
 function addEventMoreInfo(characters) {
   let btnMoreInfo = document.querySelectorAll(".btn-show-more");
@@ -346,5 +331,3 @@ function showModal(character) {
   textModalBody1.appendChild(textModalBody2);
   modalBody.appendChild(textModalBody1);
 }
-// console.log("showModal", showModal);
-//#endregion
