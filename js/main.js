@@ -1,13 +1,5 @@
-// console.log("data >>>", data);
-// console.log("occupation >>>", data[0].occupation);
-// for (let i = 0; i < data.length; i++) {
-//     console.log("status >>>", data[i].status);
-// }
 
-// let fetchController = new AbortController();
-//   const signal = fetchController.signal;
-
-//#region > FETCHING THE DATA
+///// 1) FETCH THE DATA
 const getData = () => {
   fetch("https://www.breakingbadapi.com/api/characters")
     .then((response) => {
@@ -15,30 +7,30 @@ const getData = () => {
       return response.json();
     })
     .then((result) => {
-      console.log("data", result);
+      // console.log("data", result);
       controller(result);
     })
     .catch((error) => console.log(error));
 };
 getData();
-//#endregion
 
-//#region > CONTROLLER FUNCTION
+
+///// 2) CONTROLLER FUNCTION
 function controller(result) {
   // create the cards
   createCards(result);
-  // dropdown occupations
+  // dropdown for occupation
   createDropdown(result);
-  // checkbox experience
+  // checkbox for experience
   createCheckbox(result);
   // add events
   addEvents(result);
   //event more info
   addEventMoreInfo(result);
 }
-//#endregion
 
-//#region > CREATE CARDS
+
+///// 3) CREATE CARDS
 function createCards(characters) {
   if (characters.length > 0) {
     hideNotFoundImage();
@@ -55,11 +47,8 @@ function createCards(characters) {
     let img = document.createElement("img");
     img.setAttribute("src", characters[i].img);
     img.setAttribute("alt", characters[i].name);
-    img.setAttribute("style", "width: 16rem;");
-    img.setAttribute("style", "height: 22rem;");
     img.setAttribute("referrerpolicy", "no-referrer");
     img.classList.add("card-img-top");
-    // console.log(i, data[i].name, img);
 
     let divCardBody = document.createElement("div");
     divCardBody.classList.add("card-body");
@@ -72,7 +61,7 @@ function createCards(characters) {
       "btn btn-dark btn-show-more btn btn-primary"
     );
     buttonCard.setAttribute("data-bs-toggle", "modal");
-    buttonCard.setAttribute("data-bs-target", `#exampleModal`); // template literal
+    buttonCard.setAttribute("data-bs-target", `#exampleModal`);
     buttonCard.setAttribute("id", i);
 
     let h5 = document.createElement("h5");
@@ -92,23 +81,19 @@ function createCards(characters) {
     divCardBody.appendChild(buttonCard);
   }
 }
-//#endregion
 
-//#region > EVENT LISTENERS
+
+///// 4) EVENT LISTENERS
 const addEvents = (characters) => {
-  document
-    .querySelector("#experienceCheckbox")
-    .addEventListener("click", (event) => {
-      console.log("checkbox worked");
-      // filterByCheckbox(characters);
-      combinedFilters(characters);
-    });
-
   document
     .querySelector("#occupationDropdown")
     .addEventListener("change", (event) => {
-      console.log("dropdown worked");
-      // filterByDropdown(characters);
+      combinedFilters(characters);
+    });
+  
+  document
+    .querySelector("#experienceCheckbox")
+    .addEventListener("click", (event) => {
       combinedFilters(characters);
     });
 
@@ -117,7 +102,7 @@ const addEvents = (characters) => {
     .getElementById("searchInputOccupation")
     .addEventListener("input", (event) => {
       occupation = event.target.value;
-      console.log("occupation :>> ", occupation);
+      // console.log("occupation :>> ", occupation);
       filterByOccupationSearchBar(characters, occupation);
     });
 
@@ -125,18 +110,13 @@ const addEvents = (characters) => {
     .querySelector("#searchInputOccupation")
     .addEventListener("input", (event) => {
       // console.log("searchBar worked");
-      // console.log("esto es lo que mando al filter by occupation", occupation);
       filterByOccupationSearchBar(characters, occupation);
     });
 
   document
     .querySelector("#searchButtonName")
     .addEventListener("click", (event) => {
-      console.log(event);
       let name = document.querySelector("#searchInputName").value;
-      // console.log("value", value);
-      // name = event.target.value;
-      console.log("event added to search button");
       filterByNameSearchBar(name);
     },
     { once: true }
@@ -156,7 +136,6 @@ const addEvents = (characters) => {
   });
 
 };
-//#endregion
 
 
 //#region > SHOW/HIDE FILTERS BUTTON
@@ -206,23 +185,6 @@ const createDropdown = (result) => {
 };
 //#endregion
 
-//#region > FILTERS FOR DROPDOWN
-// const filterByDropdown = (characters) => {
-//   // console.log("dropdoweddddd");
-//   const dropDrownValue = document.querySelector("#occupationDropdown").value;
-//   dropDrownValue;
-//   // console.log("dropDrownValue", dropDrownValue);
-
-//   const filteredOccupation = characters.filter((characters) => {
-//     return (
-//       characters.occupation.includes(dropDrownValue) || dropDrownValue === "all"
-//     );
-//   });
-//   // console.log("filteredOccupation", filteredOccupation);
-//   // createCards(filteredOccupation);
-//   createCards(filteredOccupation);
-// };
-//#endregion
 
 //#region > CHECKBOXES FOR EXPERIENCE
 const checkboxes = document.querySelectorAll(".form-check-input");
@@ -246,30 +208,6 @@ function createCheckbox(event) {
 }
 //#endregion
 
-//#region > FILTERS FOR CHECKBOXES
-// const filterByCheckbox = (characters) => {
-//   // console.log("its checked");
-
-//   const checkboxValue = document.querySelectorAll(".formCheckInput");
-//   // console.log("checkboxValue >>", checkboxValue);
-//   const checkedCheckboxes = [];
-//   for (let i = 0; i < checkboxValue.length; i++) {
-//     if (checkboxValue[i].checked === true) {
-//       checkedCheckboxes.push(checkboxValue[i].value);
-//     }
-//     // console.log("checkedCheckboxes :>> ", checkedCheckboxes.length);
-//   }
-
-//   const checkedExperience = characters.filter((characters) => {
-//     return (
-//       checkedCheckboxes.includes(characters.status) ||
-//       checkedCheckboxes.length == 0
-//     );
-//   });
-//   // console.log("checkedExperience", checkedExperience);
-//   createCards(checkedExperience);
-// };
-//#endregion
 
 //#region COMBINED FILTERS
 const combinedFilters = (characters) => {

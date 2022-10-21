@@ -46,10 +46,11 @@ body {
     border: none;
 }
 
-/* .card-img-top {
-    max-width: 20rem;
+.card-img-top {
+    /* max-width: 20rem; */
     width: 16rem;
-} */
+    height: 22rem;
+}
 
 .row {
     display: flex;
@@ -85,7 +86,6 @@ body {
     margin-top: 10px;
 }
 
-
 footer {
     display: flex;
     flex-direction: column;
@@ -94,3 +94,10 @@ footer {
     /* margin: 0; */
     padding: 20px 0 20px 0;
 }
+
+.main-contact {
+    padding: 60px;
+}
+
+
+
