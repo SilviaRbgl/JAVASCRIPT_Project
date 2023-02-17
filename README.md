@@ -2,9 +2,9 @@
 
 Project for **Code Academy Berlin**.
 
-The goal of the project was to create a Progressive Web App using a modern JavaScript framework such as React. The goal was to find a free API with more than one endpoint, make live calls to several endpoints and use Firebase Authentication and Firestore.
+The goal of the project was to create a Website using HTML5, CSS3, Bootstrap, JavaScript, AJAX, APIs, JSON. The goal was finding a free API providing a list of entries, use AJAX to make live calls, transform the data in JSON format and display them using DOM manipulation.
 
-I used the API of "Breaking Bad" to simulate the persons that you can hire. With the information of the API, I made some filters of my search.
+I used the API of "Breaking Bad" to simulate the persons that you can hire. With some endpoints of the API, I made some filters for the search.
 
 Most styled elements are done with Bootstrap.
 
@@ -14,11 +14,6 @@ The project was deployed on vercel:
 :desktop_computer: [Hire an expert](https://hireanexpert.netlify.app)
 
 ## Technologies used
-
-- JavaScript
-- HTML
-- CSS
-- Bootstrap
 
 <div>
 	<code><img height="50" src="https://user-images.githubusercontent.com/25181517/117447155-6a868a00-af3d-11eb-9cfe-245df15c9f3f.png" alt="JavaScript" title="JavaScript" /></code>
