@@ -2,11 +2,9 @@ const getData = () => {
   // fetch("https://www.breakingbadapi.com/api/characters")
   fetch("js/response.js")
     .then((response) => {
-      // console.log("response :>> ", response);
       return response.json();
     })
     .then((result) => {
-      // console.log("data", result);
       controller(result);
     })
     .catch((error) => console.log(error));
@@ -14,15 +12,10 @@ const getData = () => {
 getData();
 
 function controller(result) {
-  // create the cards
   createCards(result);
-  // dropdown for occupation
   createDropdown(result);
-  // checkbox for experience
   createCheckbox(result);
-  // add events
   addEvents(result);
-  //event more info
   addEventMoreInfo(result);
 }
 
