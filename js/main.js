@@ -1,6 +1,5 @@
 const getData = () => {
-  // fetch("https://www.breakingbadapi.com/api/characters")
-  fetch("js/response.js")
+  fetch("https://www.breakingbadapi.com/api/characters")
     .then((response) => {
       return response.json();
     })
@@ -19,22 +18,22 @@ function controller(result) {
   addEventMoreInfo(result);
 }
 
-function createCards(characters) {
-  if (characters.length > 0) {
+function createCards(result) {
+  if (result.length > 0) {
     hideNotFoundImage();
   }
   let containerCards = document.getElementById("container-cards");
   containerCards.innerText = "";
 
-  for (let i = 0; i < characters.length; i++) {
+  for (let i = 0; i < result.length; i++) {
     let divCard = document.createElement("div");
     divCard.setAttribute("style", "width: 20rem;");
     divCard.setAttribute("class", "col-sm-6 col-md-3");
     divCard.classList.add("card");
 
     let img = document.createElement("img");
-    img.setAttribute("src", characters[i].img);
-    img.setAttribute("alt", characters[i].name);
+    img.setAttribute("src", result[i].img);
+    img.setAttribute("alt", result[i].name);
     img.setAttribute("referrerpolicy", "no-referrer");
     img.classList.add("card-img-top");
 
@@ -54,11 +53,11 @@ function createCards(characters) {
 
     let h5 = document.createElement("h5");
     h5.classList.add("card-title");
-    h5.innerText = characters[i].name;
+    h5.innerText = result[i].name;
 
     let p = document.createElement("p");
     p.classList.add("card-text");
-    p.innerText = characters[i].occupation;
+    p.innerText = result[i].occupation;
 
     divCardBody.appendChild(h5);
     divCardBody.appendChild(p);
@@ -155,7 +154,6 @@ const filterByNameSearchBar = (name) => {
     });
 };
 
-//////// SHOW/HIDE FILTERS BUTTON
 const showMore = (characters) => {
   let showFilters = document.getElementById("filters");
   let btnShowFilters = document.getElementById("btn-show-filters");
@@ -169,7 +167,6 @@ const showMore = (characters) => {
   }
 };
 
-//////// DROPDOWN FOR OCCUPATIONS
 const createDropdown = (result) => {
   const dropdown = document.getElementById("occupationDropdown");
   let charactersOccupationsArrays = [];
@@ -193,7 +190,6 @@ const createDropdown = (result) => {
   });
 };
 
-//////// CHECKBOXES FOR EXPERIENCE
 const checkboxes = document.querySelectorAll(".form-check-input");
 checkboxes.forEach((checkbox) => {
   checkbox.addEventListener("click", createCheckbox);
@@ -211,7 +207,6 @@ function createCheckbox(event) {
   );
 }
 
-///// COMBINE FILTERS (DROPDOWN and CHECKBOX)
 const combinedFilters = (characters) => {
   const dropDrownValue = document.querySelector("#occupationDropdown").value;
   dropDrownValue;
