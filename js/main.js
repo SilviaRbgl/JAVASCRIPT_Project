@@ -1,5 +1,6 @@
 const getData = () => {
-  fetch("https://www.breakingbadapi.com/api/characters")
+  // fetch("https://www.breakingbadapi.com/api/characters")
+  fetch("https://breaking-bad-api-server.vercel.app/api/characters/all")
     .then((response) => {
       return response.json();
     })
