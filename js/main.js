@@ -20,6 +20,7 @@ function controller(result) {
 }
 
 function createCards(result) {
+  console.log("result", result)
   if (result.length > 0) {
     hideNotFoundImage();
   }
