@@ -20,21 +20,21 @@ function controller(result) {
 
 function createCards(result) {
   console.log("result>>>>", result.allCharacters)
-  if (result.length > 0) {
+  if (result.allCharacters.length > 0) {
     hideNotFoundImage();
   }
   let containerCards = document.getElementById("container-cards");
   containerCards.innerText = "";
 
-  for (let i = 0; i < result.length; i++) {
+  for (let i = 0; i < result.allCharacters.length; i++) {
     let divCard = document.createElement("div");
     divCard.setAttribute("style", "width: 20rem;");
     divCard.setAttribute("class", "col-sm-6 col-md-3");
     divCard.classList.add("card");
 
     let img = document.createElement("img");
-    img.setAttribute("src", result[i].img);
-    img.setAttribute("alt", result[i].name);
+    img.setAttribute("src", result.allCharacters[i].img);
+    img.setAttribute("alt", result.allCharacters[i].name);
     img.setAttribute("referrerpolicy", "no-referrer");
     img.classList.add("card-img-top");
 
@@ -54,11 +54,11 @@ function createCards(result) {
 
     let h5 = document.createElement("h5");
     h5.classList.add("card-title");
-    h5.innerText = result[i].name;
+    h5.innerText = result.allCharacters[i].name;
 
     let p = document.createElement("p");
     p.classList.add("card-text");
-    p.innerText = result[i].occupation;
+    p.innerText = result.allCharacters[i].occupation;
 
     divCardBody.appendChild(h5);
     divCardBody.appendChild(p);
