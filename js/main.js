@@ -173,8 +173,8 @@ const createDropdown = (result) => {
   let charactersOccupationsArrays = [];
   let occupationsArray = [];
 
-  for (let i = 0; i < result.length; i++) {
-    let characterOcuppations = result[i].occupation;
+  for (let i = 0; i < result.allCharacters.length; i++) {
+    let characterOcuppations = result.allCharacters[i].occupation;
     for (let b = 0; b < characterOcuppations.length; b++) {
       occupationsArray.push(characterOcuppations[b]);
     }
